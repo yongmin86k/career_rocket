@@ -4,10 +4,11 @@ services:
     image: prismagraphql/prisma:1.34
     restart: always
     ports:
-      - "4466:4466"
+      - "${PRISMA_PORT}:${PRISMA_PORT}"
     environment:
       PRISMA_CONFIG: |
-        port: 4466
+        managementApiSecret: ${PRISMA_MANAGEMENT_API_SECRET}
+        port: ${PRISMA_PORT}
         databases:
           default:
             connector: mongo
@@ -16,10 +17,10 @@ services:
     image: mongo:3.6
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: prisma
-      MONGO_INITDB_ROOT_PASSWORD: prisma
+      MONGO_INITDB_ROOT_USERNAME: ${PRISMA_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${PRISMA_PASSWORD}
     ports:
-      - "27017:27017"
+      - "${PRISMA_DATABASE_PORT}:${PRISMA_DATABASE_PORT}"
     volumes:
       - mongo:/var/lib/mongo
 volumes:
