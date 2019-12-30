@@ -1,7 +1,5 @@
-const Query = {
-  users: (root, args, context, info) => {
-    return context.prisma.users();
-  }
-};
+function users(root, args, context, info) {
+  return context.prisma.users();
+}
 
-module.exports = { Query };
+module.exports = { users };
