@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+/* Chrome/Opera/Safari */
+::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.32);
+}
+/* Firefox 19+ */
+::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.32);
+}
+/* IE 10+ */
+:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.32);
+}
+/* Firefox 18- */
+:-moz-placeholder {
+  color: rgba(0, 0, 0, 0.32);
+}
