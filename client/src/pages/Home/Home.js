@@ -9,7 +9,9 @@ import GLOBAL from "../../global";
 import PropTypes from "prop-types";
 
 const Home = ({ refreshTokenFn }) => {
-  const [isRemember, setRemember] = useState(false);
+  const [isRemember, setRemember] = useState(
+    localStorage.getItem(GLOBAL.REMEMBER_ME) ? true : false
+  );
   const [isActiveSubmit, setActiveSubmit] = useState(false);
   const [login] = useMutation(LOGIN_MUTATION, {
     onCompleted: ({ login }) => {
@@ -18,6 +20,12 @@ const Home = ({ refreshTokenFn }) => {
       refreshTokenFn({
         [GLOBAL.AUTH_TOKEN]: token
       });
+
+      if (isRemember) {
+        localStorage.setItem(GLOBAL.REMEMBER_ME, login.user.username);
+      } else {
+        localStorage.removeItem(GLOBAL.REMEMBER_ME);
+      }
     }
   });
 
@@ -28,9 +36,9 @@ const Home = ({ refreshTokenFn }) => {
       </Link>
 
       <Box style={styles.box}>
-        <h1 style={styles.title}>Sign In</h1>
+        <h1 style={styles.title}>Log In</h1>
         <p style={styles.caption}>
-          Please use the authorized manager ID to sign in.
+          Please use the authorized manager ID to log in.
         </p>
 
         <Form
@@ -58,7 +66,14 @@ const Home = ({ refreshTokenFn }) => {
                   }}
                 />
 
-                <Field name="username">
+                <Field
+                  name="username"
+                  defaultValue={
+                    localStorage.getItem(GLOBAL.REMEMBER_ME)
+                      ? localStorage.getItem(GLOBAL.REMEMBER_ME)
+                      : null
+                  }
+                >
                   {props => {
                     return (
                       <InputText
@@ -88,14 +103,20 @@ const Home = ({ refreshTokenFn }) => {
                   }}
                 </Field>
 
-                <Field name="rememberMe" type="checkbox">
+                <Field
+                  name="rememberMe"
+                  type="checkbox"
+                  value={
+                    localStorage.getItem(GLOBAL.REMEMBER_ME) ? true : false
+                  }
+                >
                   {({ input }) => {
                     return (
                       <label style={styles.checkBoxContainer}>
                         <input
+                          {...input}
                           style={styles.inputCheckBox}
                           type="checkbox"
-                          {...input}
                           onClick={() => {
                             setRemember(!isRemember);
                           }}
@@ -116,7 +137,7 @@ const Home = ({ refreshTokenFn }) => {
                 </Field>
 
                 <ButtonDefault type="submit" isActiveSubmit={isActiveSubmit}>
-                  Sign in
+                  Log in
                 </ButtonDefault>
               </form>
             );

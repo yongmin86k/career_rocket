@@ -27,8 +27,10 @@ async function login(parent, args, context, info) {
   if (!valid) {
     throw new Error("Invalid password");
   }
+  const newData = { ...user };
+  delete newData.password;
 
-  const token = jwt.sign({ userId: user.id }, APP_SECRET);
+  const token = jwt.sign({ ...newData }, APP_SECRET);
 
   return {
     token,
