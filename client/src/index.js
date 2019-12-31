@@ -1,5 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { ApolloProvider } from "@apollo/react-hooks";
+import client from "./apollo";
+import { ViewerProvider } from "./context/ViewerContext";
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./routes";
 import "./reset.css";
@@ -8,9 +11,13 @@ import * as serviceWorker from "./serviceWorker";
 
 const App = () => {
   return (
-    <Router>
-      <Routes />
-    </Router>
+    <ApolloProvider client={client}>
+      <ViewerProvider>
+        <Router>
+          <Routes />
+        </Router>
+      </ViewerProvider>
+    </ApolloProvider>
   );
 };
 

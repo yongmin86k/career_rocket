@@ -56,6 +56,7 @@ type User {
   id: ID!
   name: String!
   email: String!
+  username: String!
   password: String!
   createdAt: DateTime!
 }
@@ -70,6 +71,7 @@ input UserCreateInput {
   id: ID
   name: String!
   email: String!
+  username: String!
   password: String!
 }
 
@@ -85,6 +87,8 @@ enum UserOrderByInput {
   name_DESC
   email_ASC
   email_DESC
+  username_ASC
+  username_DESC
   password_ASC
   password_DESC
   createdAt_ASC
@@ -95,6 +99,7 @@ type UserPreviousValues {
   id: ID!
   name: String!
   email: String!
+  username: String!
   password: String!
   createdAt: DateTime!
 }
@@ -120,12 +125,14 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   name: String
   email: String
+  username: String
   password: String
 }
 
 input UserUpdateManyMutationInput {
   name: String
   email: String
+  username: String
   password: String
 }
 
@@ -172,6 +179,20 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  username: String
+  username_not: String
+  username_in: [String!]
+  username_not_in: [String!]
+  username_lt: String
+  username_lte: String
+  username_gt: String
+  username_gte: String
+  username_contains: String
+  username_not_contains: String
+  username_starts_with: String
+  username_not_starts_with: String
+  username_ends_with: String
+  username_not_ends_with: String
   password: String
   password_not: String
   password_in: [String!]
@@ -202,6 +223,7 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
+  username: String
 }
 `
       }

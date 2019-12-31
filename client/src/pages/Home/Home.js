@@ -1,12 +1,25 @@
 import React, { useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
+import { LOGIN_MUTATION } from "../../apollo/mutations";
 import { Link } from "react-router-dom";
 import { Form, FormSpy, Field } from "react-final-form";
 import { Box, ButtonDefault, InputText } from "../../components";
 import styles from "./styles";
+import GLOBAL from "../../global";
+import PropTypes from "prop-types";
 
-const Home = props => {
+const Home = ({ refreshTokenFn }) => {
   const [isRemember, setRemember] = useState(false);
   const [isActiveSubmit, setActiveSubmit] = useState(false);
+  const [login] = useMutation(LOGIN_MUTATION, {
+    onCompleted: ({ login }) => {
+      const token = login.token;
+
+      refreshTokenFn({
+        [GLOBAL.AUTH_TOKEN]: token
+      });
+    }
+  });
 
   return (
     <div style={styles.container}>
@@ -21,8 +34,10 @@ const Home = props => {
         </p>
 
         <Form
-          onSubmit={() => {
-            console.log("submit");
+          onSubmit={values => {
+            login({
+              variables: { ...values }
+            });
           }}
         >
           {({ handleSubmit }) => {
@@ -115,3 +130,7 @@ const Home = props => {
 };
 
 export default Home;
+
+Home.propTypes = {
+  refreshTokenFn: PropTypes.func
+};
