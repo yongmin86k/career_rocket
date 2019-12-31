@@ -1,9 +1,17 @@
 import THEME from "../../theme";
 
 const styles = {
-  container: {
+  bgContainer: {
+    zIndex: -1,
+    position: "fixed",
+    top: 0,
+    left: 0,
     backgroundImage:
       "linear-gradient(151deg, #f2f3f7, #53a0fd 67%, #2542b7 103%)",
+    width: "100vw",
+    height: "100vh"
+  },
+  container: {
     minWidth: "100vw",
     minHeight: "100vh",
     padding: THEME.spacing(),
