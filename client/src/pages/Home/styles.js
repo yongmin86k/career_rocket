@@ -63,8 +63,16 @@ const styles = {
     fontWeight: THEME.typography.weight.medium,
     color: THEME.colors.grey
   },
+  accountForm: {
+    ...THEME.typography.caption,
+    cursor: "pointer",
+    marginTop: THEME.spacing(1),
+    textDecoration: "underline",
+    textAlign: "center",
+    color: "white"
+  },
   copyRights: {
-    marginTop: THEME.spacing(5),
+    marginTop: THEME.spacing(4),
     ...THEME.typography.copyRight,
     textAlign: "right",
     color: "white"
