@@ -30,6 +30,9 @@ export const SIGNUP_MUTATION = gql`
       token
       user {
         id
+        name
+        email
+        username
       }
     }
   }

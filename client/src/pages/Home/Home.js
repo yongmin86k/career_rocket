@@ -3,7 +3,12 @@ import { useMutation } from "@apollo/react-hooks";
 import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../../apollo/mutations";
 import { Link } from "react-router-dom";
 import { Form, FormSpy, Field } from "react-final-form";
-import { Box, ButtonDefault, InputText } from "../../components";
+import {
+  FullScreenLoader,
+  Box,
+  ButtonDefault,
+  InputText
+} from "../../components";
 import styles from "./styles";
 import GLOBAL from "../../global";
 import PropTypes from "prop-types";
@@ -15,37 +20,43 @@ const Home = ({ refreshTokenFn }) => {
   const [isActiveSubmit, setActiveSubmit] = useState(false);
   const [isAccountForm, setAccountForm] = useState(true);
 
-  const [login] = useMutation(LOGIN_MUTATION, {
-    onCompleted: ({ login }) => {
-      const token = login.token;
+  const [login, { loading: logInLoading, error: logInError }] = useMutation(
+    LOGIN_MUTATION,
+    {
+      onCompleted: ({ login }) => {
+        const token = login.token;
 
-      refreshTokenFn({
-        [GLOBAL.AUTH_TOKEN]: token
-      });
+        refreshTokenFn({
+          [GLOBAL.AUTH_TOKEN]: token
+        });
 
-      if (isRemember) {
-        localStorage.setItem(GLOBAL.REMEMBER_ME, login.user.username);
-      } else {
-        localStorage.removeItem(GLOBAL.REMEMBER_ME);
+        if (isRemember) {
+          localStorage.setItem(GLOBAL.REMEMBER_ME, login.user.username);
+        } else {
+          localStorage.removeItem(GLOBAL.REMEMBER_ME);
+        }
       }
     }
-  });
+  );
 
-  const [signup] = useMutation(SIGNUP_MUTATION, {
-    onCompleted: ({ signup }) => {
-      const token = signup.token;
+  const [signup, { loading: signUpLoading, error: signUpError }] = useMutation(
+    SIGNUP_MUTATION,
+    {
+      onCompleted: ({ signup }) => {
+        const token = signup.token;
 
-      refreshTokenFn({
-        [GLOBAL.AUTH_TOKEN]: token
-      });
+        refreshTokenFn({
+          [GLOBAL.AUTH_TOKEN]: token
+        });
 
-      if (isRemember) {
-        localStorage.setItem(GLOBAL.REMEMBER_ME, login.user.username);
-      } else {
-        localStorage.removeItem(GLOBAL.REMEMBER_ME);
+        if (isRemember) {
+          localStorage.setItem(GLOBAL.REMEMBER_ME, signup.user.username);
+        } else {
+          localStorage.removeItem(GLOBAL.REMEMBER_ME);
+        }
       }
     }
-  });
+  );
 
   return (
     <>
@@ -287,6 +298,7 @@ const Home = ({ refreshTokenFn }) => {
             </>
           )}
         </Box>
+
         <p
           style={styles.accountForm}
           onClick={() => {
@@ -298,6 +310,8 @@ const Home = ({ refreshTokenFn }) => {
 
         <p style={styles.copyRights}>Yongmin Kim © 2019</p>
       </div>
+
+      <FullScreenLoader show={logInLoading || signUpLoading} />
     </>
   );
 };
