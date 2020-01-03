@@ -1,10 +1,31 @@
 import React from "react";
+import THEME from "../../theme";
 import styles from "./styles";
+import styled from "styled-components";
+import { useMediaQuery } from "../../hooks";
 import PropTypes from "prop-types";
 
+const StyledButton = styled.button`
+  &:hover {
+    ${({ isMedia, isActiveSubmit }) =>
+      isMedia === "mobile"
+        ? null
+        : isActiveSubmit
+        ? `background-color: ${THEME.colors.hoverBlue} !important;
+          border-color: ${THEME.colors.hoverBlue} !important;`
+        : `opacity: 0.3;
+          cursor: not-allowed !important;
+        `}
+  }
+`;
+
 const ButtonDefault = ({ type, isActiveSubmit, children }) => {
+  const isMedia = useMediaQuery();
+
   return (
-    <button
+    <StyledButton
+      isMedia={isMedia}
+      isActiveSubmit={isActiveSubmit}
       style={
         isActiveSubmit
           ? {
@@ -19,7 +40,7 @@ const ButtonDefault = ({ type, isActiveSubmit, children }) => {
       disabled={!isActiveSubmit}
     >
       {children}
-    </button>
+    </StyledButton>
   );
 };
 

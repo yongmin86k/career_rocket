@@ -16,6 +16,8 @@ import { useMediaQuery } from "../../hooks";
 import PropTypes from "prop-types";
 
 const Home = ({ refreshTokenFn }) => {
+  const isMedia = useMediaQuery();
+
   const [isRemember, setRemember] = useState(
     localStorage.getItem(GLOBAL.REMEMBER_ME) ? true : false
   );
@@ -60,8 +62,6 @@ const Home = ({ refreshTokenFn }) => {
       error.message && setAccountError(error.message.split(": ")[1]);
     }
   });
-
-  const isMedia = useMediaQuery();
 
   return (
     <div style={styles.page(isMedia)}>

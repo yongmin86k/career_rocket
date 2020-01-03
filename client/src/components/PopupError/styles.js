@@ -21,7 +21,7 @@ const styles = {
     transition: THEME.transition,
     zIndex: 999
   },
-  popup: {
+  popup: isMedia => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -29,8 +29,8 @@ const styles = {
     padding: THEME.spacing(),
     paddingTop: 24,
     paddingBottom: 20,
-    width: "100%"
-  },
+    width: isMedia === "mobile" ? "100%" : 280
+  }),
   iconError: {
     width: 50,
     height: 50,
