@@ -13,7 +13,15 @@ var models = [
     embedded: false
   },
   {
+    name: "Consulting",
+    embedded: false
+  },
+  {
     name: "GenderType",
+    embedded: false
+  },
+  {
+    name: "ProcessType",
     embedded: false
   }
 ];

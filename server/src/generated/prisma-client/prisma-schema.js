@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateStudent {
+/* GraphQL */ `type AggregateConsulting {
+  count: Int!
+}
+
+type AggregateStudent {
   count: Int!
 }
 
@@ -13,6 +17,187 @@ type AggregateUser {
 
 type BatchPayload {
   count: Long!
+}
+
+type Consulting {
+  id: ID!
+  student: Student!
+  process: ProcessType!
+  createdAt: DateTime!
+}
+
+type ConsultingConnection {
+  pageInfo: PageInfo!
+  edges: [ConsultingEdge]!
+  aggregate: AggregateConsulting!
+}
+
+input ConsultingCreateInput {
+  id: ID
+  student: StudentCreateOneWithoutConsultingInput!
+  process: ProcessType
+}
+
+input ConsultingCreateManyWithoutStudentInput {
+  create: [ConsultingCreateWithoutStudentInput!]
+  connect: [ConsultingWhereUniqueInput!]
+}
+
+input ConsultingCreateWithoutStudentInput {
+  id: ID
+  process: ProcessType
+}
+
+type ConsultingEdge {
+  node: Consulting!
+  cursor: String!
+}
+
+enum ConsultingOrderByInput {
+  id_ASC
+  id_DESC
+  process_ASC
+  process_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ConsultingPreviousValues {
+  id: ID!
+  process: ProcessType!
+  createdAt: DateTime!
+}
+
+input ConsultingScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  process: ProcessType
+  process_not: ProcessType
+  process_in: [ProcessType!]
+  process_not_in: [ProcessType!]
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [ConsultingScalarWhereInput!]
+  OR: [ConsultingScalarWhereInput!]
+  NOT: [ConsultingScalarWhereInput!]
+}
+
+type ConsultingSubscriptionPayload {
+  mutation: MutationType!
+  node: Consulting
+  updatedFields: [String!]
+  previousValues: ConsultingPreviousValues
+}
+
+input ConsultingSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ConsultingWhereInput
+  AND: [ConsultingSubscriptionWhereInput!]
+  OR: [ConsultingSubscriptionWhereInput!]
+  NOT: [ConsultingSubscriptionWhereInput!]
+}
+
+input ConsultingUpdateInput {
+  student: StudentUpdateOneRequiredWithoutConsultingInput
+  process: ProcessType
+}
+
+input ConsultingUpdateManyDataInput {
+  process: ProcessType
+}
+
+input ConsultingUpdateManyMutationInput {
+  process: ProcessType
+}
+
+input ConsultingUpdateManyWithoutStudentInput {
+  create: [ConsultingCreateWithoutStudentInput!]
+  delete: [ConsultingWhereUniqueInput!]
+  connect: [ConsultingWhereUniqueInput!]
+  set: [ConsultingWhereUniqueInput!]
+  disconnect: [ConsultingWhereUniqueInput!]
+  update: [ConsultingUpdateWithWhereUniqueWithoutStudentInput!]
+  upsert: [ConsultingUpsertWithWhereUniqueWithoutStudentInput!]
+  deleteMany: [ConsultingScalarWhereInput!]
+  updateMany: [ConsultingUpdateManyWithWhereNestedInput!]
+}
+
+input ConsultingUpdateManyWithWhereNestedInput {
+  where: ConsultingScalarWhereInput!
+  data: ConsultingUpdateManyDataInput!
+}
+
+input ConsultingUpdateWithoutStudentDataInput {
+  process: ProcessType
+}
+
+input ConsultingUpdateWithWhereUniqueWithoutStudentInput {
+  where: ConsultingWhereUniqueInput!
+  data: ConsultingUpdateWithoutStudentDataInput!
+}
+
+input ConsultingUpsertWithWhereUniqueWithoutStudentInput {
+  where: ConsultingWhereUniqueInput!
+  update: ConsultingUpdateWithoutStudentDataInput!
+  create: ConsultingCreateWithoutStudentInput!
+}
+
+input ConsultingWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  student: StudentWhereInput
+  process: ProcessType
+  process_not: ProcessType
+  process_in: [ProcessType!]
+  process_not_in: [ProcessType!]
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [ConsultingWhereInput!]
+  OR: [ConsultingWhereInput!]
+  NOT: [ConsultingWhereInput!]
+}
+
+input ConsultingWhereUniqueInput {
+  id: ID
 }
 
 scalar DateTime
@@ -26,6 +211,12 @@ enum GenderType {
 scalar Long
 
 type Mutation {
+  createConsulting(data: ConsultingCreateInput!): Consulting!
+  updateConsulting(data: ConsultingUpdateInput!, where: ConsultingWhereUniqueInput!): Consulting
+  updateManyConsultings(data: ConsultingUpdateManyMutationInput!, where: ConsultingWhereInput): BatchPayload!
+  upsertConsulting(where: ConsultingWhereUniqueInput!, create: ConsultingCreateInput!, update: ConsultingUpdateInput!): Consulting!
+  deleteConsulting(where: ConsultingWhereUniqueInput!): Consulting
+  deleteManyConsultings(where: ConsultingWhereInput): BatchPayload!
   createStudent(data: StudentCreateInput!): Student!
   updateStudent(data: StudentUpdateInput!, where: StudentWhereUniqueInput!): Student
   updateManyStudents(data: StudentUpdateManyMutationInput!, where: StudentWhereInput): BatchPayload!
@@ -57,7 +248,18 @@ type PageInfo {
   endCursor: String
 }
 
+enum ProcessType {
+  HIRED
+  JOB_SEEKING
+  IN_TRANSITION
+  CONSTULING
+  UNOCCUPIED
+}
+
 type Query {
+  consulting(where: ConsultingWhereUniqueInput!): Consulting
+  consultings(where: ConsultingWhereInput, orderBy: ConsultingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Consulting]!
+  consultingsConnection(where: ConsultingWhereInput, orderBy: ConsultingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ConsultingConnection!
   student(where: StudentWhereUniqueInput!): Student
   students(where: StudentWhereInput, orderBy: StudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Student]!
   studentsConnection(where: StudentWhereInput, orderBy: StudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StudentConnection!
@@ -74,6 +276,7 @@ type Student {
   gender: GenderType!
   birthDate: DateTime!
   email: String!
+  consulting(where: ConsultingWhereInput, orderBy: ConsultingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Consulting!]
 }
 
 type StudentConnection {
@@ -83,6 +286,21 @@ type StudentConnection {
 }
 
 input StudentCreateInput {
+  id: ID
+  profileImg: String
+  name: String!
+  gender: GenderType!
+  birthDate: DateTime!
+  email: String!
+  consulting: ConsultingCreateManyWithoutStudentInput
+}
+
+input StudentCreateOneWithoutConsultingInput {
+  create: StudentCreateWithoutConsultingInput
+  connect: StudentWhereUniqueInput
+}
+
+input StudentCreateWithoutConsultingInput {
   id: ID
   profileImg: String
   name: String!
@@ -144,6 +362,7 @@ input StudentUpdateInput {
   gender: GenderType
   birthDate: DateTime
   email: String
+  consulting: ConsultingUpdateManyWithoutStudentInput
 }
 
 input StudentUpdateManyMutationInput {
@@ -152,6 +371,26 @@ input StudentUpdateManyMutationInput {
   gender: GenderType
   birthDate: DateTime
   email: String
+}
+
+input StudentUpdateOneRequiredWithoutConsultingInput {
+  create: StudentCreateWithoutConsultingInput
+  update: StudentUpdateWithoutConsultingDataInput
+  upsert: StudentUpsertWithoutConsultingInput
+  connect: StudentWhereUniqueInput
+}
+
+input StudentUpdateWithoutConsultingDataInput {
+  profileImg: String
+  name: String
+  gender: GenderType
+  birthDate: DateTime
+  email: String
+}
+
+input StudentUpsertWithoutConsultingInput {
+  update: StudentUpdateWithoutConsultingDataInput!
+  create: StudentCreateWithoutConsultingInput!
 }
 
 input StudentWhereInput {
@@ -223,6 +462,9 @@ input StudentWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  consulting_every: ConsultingWhereInput
+  consulting_some: ConsultingWhereInput
+  consulting_none: ConsultingWhereInput
   AND: [StudentWhereInput!]
   OR: [StudentWhereInput!]
   NOT: [StudentWhereInput!]
@@ -233,6 +475,7 @@ input StudentWhereUniqueInput {
 }
 
 type Subscription {
+  consulting(where: ConsultingSubscriptionWhereInput): ConsultingSubscriptionPayload
   student(where: StudentSubscriptionWhereInput): StudentSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }

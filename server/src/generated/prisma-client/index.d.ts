@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  consulting: (where?: ConsultingWhereInput) => Promise<boolean>;
   student: (where?: StudentWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -39,6 +40,25 @@ export interface Prisma {
    * Queries
    */
 
+  consulting: (where: ConsultingWhereUniqueInput) => ConsultingNullablePromise;
+  consultings: (args?: {
+    where?: ConsultingWhereInput;
+    orderBy?: ConsultingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Consulting>;
+  consultingsConnection: (args?: {
+    where?: ConsultingWhereInput;
+    orderBy?: ConsultingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ConsultingConnectionPromise;
   student: (where: StudentWhereUniqueInput) => StudentNullablePromise;
   students: (args?: {
     where?: StudentWhereInput;
@@ -83,6 +103,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createConsulting: (data: ConsultingCreateInput) => ConsultingPromise;
+  updateConsulting: (args: {
+    data: ConsultingUpdateInput;
+    where: ConsultingWhereUniqueInput;
+  }) => ConsultingPromise;
+  updateManyConsultings: (args: {
+    data: ConsultingUpdateManyMutationInput;
+    where?: ConsultingWhereInput;
+  }) => BatchPayloadPromise;
+  upsertConsulting: (args: {
+    where: ConsultingWhereUniqueInput;
+    create: ConsultingCreateInput;
+    update: ConsultingUpdateInput;
+  }) => ConsultingPromise;
+  deleteConsulting: (where: ConsultingWhereUniqueInput) => ConsultingPromise;
+  deleteManyConsultings: (where?: ConsultingWhereInput) => BatchPayloadPromise;
   createStudent: (data: StudentCreateInput) => StudentPromise;
   updateStudent: (args: {
     data: StudentUpdateInput;
@@ -124,6 +160,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  consulting: (
+    where?: ConsultingSubscriptionWhereInput
+  ) => ConsultingSubscriptionPayloadSubscription;
   student: (
     where?: StudentSubscriptionWhereInput
   ) => StudentSubscriptionPayloadSubscription;
@@ -140,6 +179,23 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type ProcessType =
+  | "HIRED"
+  | "JOB_SEEKING"
+  | "IN_TRANSITION"
+  | "CONSTULING"
+  | "UNOCCUPIED";
+
+export type ConsultingOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "process_ASC"
+  | "process_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
+
+export type GenderType = "MALE" | "FEMALE" | "RATHER_NOT_SAY";
+
 export type StudentOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -153,10 +209,6 @@ export type StudentOrderByInput =
   | "birthDate_DESC"
   | "email_ASC"
   | "email_DESC";
-
-export type GenderType = "MALE" | "FEMALE" | "RATHER_NOT_SAY";
-
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -172,24 +224,25 @@ export type UserOrderByInput =
   | "createdAt_ASC"
   | "createdAt_DESC";
 
-export interface UserUpdateInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  username?: Maybe<String>;
-  password?: Maybe<String>;
-}
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface StudentUpdateInput {
+export interface StudentCreateWithoutConsultingInput {
+  id?: Maybe<ID_Input>;
   profileImg?: Maybe<String>;
-  name?: Maybe<String>;
-  gender?: Maybe<GenderType>;
-  birthDate?: Maybe<DateTimeInput>;
-  email?: Maybe<String>;
+  name: String;
+  gender: GenderType;
+  birthDate: DateTimeInput;
+  email: String;
 }
 
-export type StudentWhereUniqueInput = AtLeastOne<{
+export type ConsultingWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export interface StudentUpsertWithoutConsultingInput {
+  update: StudentUpdateWithoutConsultingDataInput;
+  create: StudentCreateWithoutConsultingInput;
+}
 
 export interface StudentWhereInput {
   id?: Maybe<ID_Input>;
@@ -260,9 +313,269 @@ export interface StudentWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
+  consulting_every?: Maybe<ConsultingWhereInput>;
+  consulting_some?: Maybe<ConsultingWhereInput>;
+  consulting_none?: Maybe<ConsultingWhereInput>;
   AND?: Maybe<StudentWhereInput[] | StudentWhereInput>;
   OR?: Maybe<StudentWhereInput[] | StudentWhereInput>;
   NOT?: Maybe<StudentWhereInput[] | StudentWhereInput>;
+}
+
+export interface ConsultingUpsertWithWhereUniqueWithoutStudentInput {
+  where: ConsultingWhereUniqueInput;
+  update: ConsultingUpdateWithoutStudentDataInput;
+  create: ConsultingCreateWithoutStudentInput;
+}
+
+export interface StudentCreateInput {
+  id?: Maybe<ID_Input>;
+  profileImg?: Maybe<String>;
+  name: String;
+  gender: GenderType;
+  birthDate: DateTimeInput;
+  email: String;
+  consulting?: Maybe<ConsultingCreateManyWithoutStudentInput>;
+}
+
+export interface ConsultingUpdateWithoutStudentDataInput {
+  process?: Maybe<ProcessType>;
+}
+
+export interface ConsultingUpdateManyMutationInput {
+  process?: Maybe<ProcessType>;
+}
+
+export interface ConsultingUpdateWithWhereUniqueWithoutStudentInput {
+  where: ConsultingWhereUniqueInput;
+  data: ConsultingUpdateWithoutStudentDataInput;
+}
+
+export interface StudentSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<StudentWhereInput>;
+  AND?: Maybe<StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput>;
+  OR?: Maybe<StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput>;
+  NOT?: Maybe<StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput>;
+}
+
+export interface ConsultingUpdateManyWithoutStudentInput {
+  create?: Maybe<
+    ConsultingCreateWithoutStudentInput[] | ConsultingCreateWithoutStudentInput
+  >;
+  delete?: Maybe<ConsultingWhereUniqueInput[] | ConsultingWhereUniqueInput>;
+  connect?: Maybe<ConsultingWhereUniqueInput[] | ConsultingWhereUniqueInput>;
+  set?: Maybe<ConsultingWhereUniqueInput[] | ConsultingWhereUniqueInput>;
+  disconnect?: Maybe<ConsultingWhereUniqueInput[] | ConsultingWhereUniqueInput>;
+  update?: Maybe<
+    | ConsultingUpdateWithWhereUniqueWithoutStudentInput[]
+    | ConsultingUpdateWithWhereUniqueWithoutStudentInput
+  >;
+  upsert?: Maybe<
+    | ConsultingUpsertWithWhereUniqueWithoutStudentInput[]
+    | ConsultingUpsertWithWhereUniqueWithoutStudentInput
+  >;
+  deleteMany?: Maybe<ConsultingScalarWhereInput[] | ConsultingScalarWhereInput>;
+  updateMany?: Maybe<
+    | ConsultingUpdateManyWithWhereNestedInput[]
+    | ConsultingUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpdateManyMutationInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  username?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
+export type StudentWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface StudentUpdateManyMutationInput {
+  profileImg?: Maybe<String>;
+  name?: Maybe<String>;
+  gender?: Maybe<GenderType>;
+  birthDate?: Maybe<DateTimeInput>;
+  email?: Maybe<String>;
+}
+
+export interface ConsultingCreateInput {
+  id?: Maybe<ID_Input>;
+  student: StudentCreateOneWithoutConsultingInput;
+  process?: Maybe<ProcessType>;
+}
+
+export interface ConsultingUpdateManyWithWhereNestedInput {
+  where: ConsultingScalarWhereInput;
+  data: ConsultingUpdateManyDataInput;
+}
+
+export interface StudentCreateOneWithoutConsultingInput {
+  create?: Maybe<StudentCreateWithoutConsultingInput>;
+  connect?: Maybe<StudentWhereUniqueInput>;
+}
+
+export interface ConsultingScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  process?: Maybe<ProcessType>;
+  process_not?: Maybe<ProcessType>;
+  process_in?: Maybe<ProcessType[] | ProcessType>;
+  process_not_in?: Maybe<ProcessType[] | ProcessType>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<ConsultingScalarWhereInput[] | ConsultingScalarWhereInput>;
+  OR?: Maybe<ConsultingScalarWhereInput[] | ConsultingScalarWhereInput>;
+  NOT?: Maybe<ConsultingScalarWhereInput[] | ConsultingScalarWhereInput>;
+}
+
+export interface StudentUpdateInput {
+  profileImg?: Maybe<String>;
+  name?: Maybe<String>;
+  gender?: Maybe<GenderType>;
+  birthDate?: Maybe<DateTimeInput>;
+  email?: Maybe<String>;
+  consulting?: Maybe<ConsultingUpdateManyWithoutStudentInput>;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export interface ConsultingUpdateInput {
+  student?: Maybe<StudentUpdateOneRequiredWithoutConsultingInput>;
+  process?: Maybe<ProcessType>;
+}
+
+export interface UserUpdateInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  username?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
+export interface StudentUpdateOneRequiredWithoutConsultingInput {
+  create?: Maybe<StudentCreateWithoutConsultingInput>;
+  update?: Maybe<StudentUpdateWithoutConsultingDataInput>;
+  upsert?: Maybe<StudentUpsertWithoutConsultingInput>;
+  connect?: Maybe<StudentWhereUniqueInput>;
+}
+
+export interface ConsultingUpdateManyDataInput {
+  process?: Maybe<ProcessType>;
+}
+
+export interface ConsultingCreateManyWithoutStudentInput {
+  create?: Maybe<
+    ConsultingCreateWithoutStudentInput[] | ConsultingCreateWithoutStudentInput
+  >;
+  connect?: Maybe<ConsultingWhereUniqueInput[] | ConsultingWhereUniqueInput>;
+}
+
+export interface ConsultingCreateWithoutStudentInput {
+  id?: Maybe<ID_Input>;
+  process?: Maybe<ProcessType>;
+}
+
+export interface ConsultingWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  student?: Maybe<StudentWhereInput>;
+  process?: Maybe<ProcessType>;
+  process_not?: Maybe<ProcessType>;
+  process_in?: Maybe<ProcessType[] | ProcessType>;
+  process_not_in?: Maybe<ProcessType[] | ProcessType>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<ConsultingWhereInput[] | ConsultingWhereInput>;
+  OR?: Maybe<ConsultingWhereInput[] | ConsultingWhereInput>;
+  NOT?: Maybe<ConsultingWhereInput[] | ConsultingWhereInput>;
+}
+
+export interface StudentUpdateWithoutConsultingDataInput {
+  profileImg?: Maybe<String>;
+  name?: Maybe<String>;
+  gender?: Maybe<GenderType>;
+  birthDate?: Maybe<DateTimeInput>;
+  email?: Maybe<String>;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  username?: Maybe<String>;
+}>;
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  email: String;
+  username: String;
+  password: String;
+}
+
+export interface ConsultingSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ConsultingWhereInput>;
+  AND?: Maybe<
+    ConsultingSubscriptionWhereInput[] | ConsultingSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    ConsultingSubscriptionWhereInput[] | ConsultingSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    ConsultingSubscriptionWhereInput[] | ConsultingSubscriptionWhereInput
+  >;
 }
 
 export interface UserWhereInput {
@@ -349,112 +662,8 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-  username?: Maybe<String>;
-}>;
-
-export interface StudentCreateInput {
-  id?: Maybe<ID_Input>;
-  profileImg?: Maybe<String>;
-  name: String;
-  gender: GenderType;
-  birthDate: DateTimeInput;
-  email: String;
-}
-
-export interface StudentSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<StudentWhereInput>;
-  AND?: Maybe<StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput>;
-  OR?: Maybe<StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput>;
-  NOT?: Maybe<StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput>;
-}
-
-export interface StudentUpdateManyMutationInput {
-  profileImg?: Maybe<String>;
-  name?: Maybe<String>;
-  gender?: Maybe<GenderType>;
-  birthDate?: Maybe<DateTimeInput>;
-  email?: Maybe<String>;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  email: String;
-  username: String;
-  password: String;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-}
-
-export interface UserUpdateManyMutationInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  username?: Maybe<String>;
-  password?: Maybe<String>;
-}
-
 export interface NodeNode {
   id: ID_Output;
-}
-
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
-}
-
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
-}
-
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserPreviousValues {
@@ -509,22 +718,6 @@ export interface StudentConnectionSubscription
   aggregate: <T = AggregateStudentSubscription>() => T;
 }
 
-export interface AggregateUser {
-  count: Int;
-}
-
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
 export interface StudentSubscriptionPayload {
   mutation: MutationType;
   node: Student;
@@ -548,6 +741,162 @@ export interface StudentSubscriptionPayloadSubscription
   node: <T = StudentSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
   previousValues: <T = StudentPreviousValuesSubscription>() => T;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface ConsultingConnection {
+  pageInfo: PageInfo;
+  edges: ConsultingEdge[];
+}
+
+export interface ConsultingConnectionPromise
+  extends Promise<ConsultingConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ConsultingEdge>>() => T;
+  aggregate: <T = AggregateConsultingPromise>() => T;
+}
+
+export interface ConsultingConnectionSubscription
+  extends Promise<AsyncIterator<ConsultingConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ConsultingEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateConsultingSubscription>() => T;
+}
+
+export interface AggregateConsulting {
+  count: Int;
+}
+
+export interface AggregateConsultingPromise
+  extends Promise<AggregateConsulting>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateConsultingSubscription
+  extends Promise<AsyncIterator<AggregateConsulting>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ConsultingEdge {
+  node: Consulting;
+  cursor: String;
+}
+
+export interface ConsultingEdgePromise
+  extends Promise<ConsultingEdge>,
+    Fragmentable {
+  node: <T = ConsultingPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ConsultingEdgeSubscription
+  extends Promise<AsyncIterator<ConsultingEdge>>,
+    Fragmentable {
+  node: <T = ConsultingSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Student {
+  id: ID_Output;
+  profileImg?: String;
+  name: String;
+  gender: GenderType;
+  birthDate: DateTimeOutput;
+  email: String;
+}
+
+export interface StudentPromise extends Promise<Student>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  profileImg: () => Promise<String>;
+  name: () => Promise<String>;
+  gender: () => Promise<GenderType>;
+  birthDate: () => Promise<DateTimeOutput>;
+  email: () => Promise<String>;
+  consulting: <T = FragmentableArray<Consulting>>(args?: {
+    where?: ConsultingWhereInput;
+    orderBy?: ConsultingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface StudentSubscription
+  extends Promise<AsyncIterator<Student>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  profileImg: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  gender: () => Promise<AsyncIterator<GenderType>>;
+  birthDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  email: () => Promise<AsyncIterator<String>>;
+  consulting: <T = Promise<AsyncIterator<ConsultingSubscription>>>(args?: {
+    where?: ConsultingWhereInput;
+    orderBy?: ConsultingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface StudentNullablePromise
+  extends Promise<Student | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  profileImg: () => Promise<String>;
+  name: () => Promise<String>;
+  gender: () => Promise<GenderType>;
+  birthDate: () => Promise<DateTimeOutput>;
+  email: () => Promise<String>;
+  consulting: <T = FragmentableArray<Consulting>>(args?: {
+    where?: ConsultingWhereInput;
+    orderBy?: ConsultingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface StudentPreviousValues {
@@ -579,6 +928,123 @@ export interface StudentPreviousValuesSubscription
   gender: () => Promise<AsyncIterator<GenderType>>;
   birthDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   email: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateStudent {
+  count: Int;
+}
+
+export interface AggregateStudentPromise
+  extends Promise<AggregateStudent>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateStudentSubscription
+  extends Promise<AsyncIterator<AggregateStudent>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ConsultingPreviousValues {
+  id: ID_Output;
+  process: ProcessType;
+  createdAt: DateTimeOutput;
+}
+
+export interface ConsultingPreviousValuesPromise
+  extends Promise<ConsultingPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  process: () => Promise<ProcessType>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ConsultingPreviousValuesSubscription
+  extends Promise<AsyncIterator<ConsultingPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  process: () => Promise<AsyncIterator<ProcessType>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ConsultingSubscriptionPayload {
+  mutation: MutationType;
+  node: Consulting;
+  updatedFields: String[];
+  previousValues: ConsultingPreviousValues;
+}
+
+export interface ConsultingSubscriptionPayloadPromise
+  extends Promise<ConsultingSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ConsultingPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ConsultingPreviousValuesPromise>() => T;
+}
+
+export interface ConsultingSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ConsultingSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ConsultingSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ConsultingPreviousValuesSubscription>() => T;
+}
+
+export interface Consulting {
+  id: ID_Output;
+  process: ProcessType;
+  createdAt: DateTimeOutput;
+}
+
+export interface ConsultingPromise extends Promise<Consulting>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  student: <T = StudentPromise>() => T;
+  process: () => Promise<ProcessType>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ConsultingSubscription
+  extends Promise<AsyncIterator<Consulting>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  student: <T = StudentSubscription>() => T;
+  process: () => Promise<AsyncIterator<ProcessType>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ConsultingNullablePromise
+  extends Promise<Consulting | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  student: <T = StudentPromise>() => T;
+  process: () => Promise<ProcessType>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface StudentEdge {
@@ -638,77 +1104,41 @@ export interface UserNullablePromise
   createdAt: () => Promise<DateTimeOutput>;
 }
 
-export interface UserEdge {
-  node: User;
-  cursor: String;
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
 }
 
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
 }
 
-export interface Student {
-  id: ID_Output;
-  profileImg?: String;
-  name: String;
-  gender: GenderType;
-  birthDate: DateTimeOutput;
-  email: String;
-}
-
-export interface StudentPromise extends Promise<Student>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  profileImg: () => Promise<String>;
-  name: () => Promise<String>;
-  gender: () => Promise<GenderType>;
-  birthDate: () => Promise<DateTimeOutput>;
-  email: () => Promise<String>;
-}
-
-export interface StudentSubscription
-  extends Promise<AsyncIterator<Student>>,
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  profileImg: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  gender: () => Promise<AsyncIterator<GenderType>>;
-  birthDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  email: () => Promise<AsyncIterator<String>>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
-export interface StudentNullablePromise
-  extends Promise<Student | null>,
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  profileImg: () => Promise<String>;
-  name: () => Promise<String>;
-  gender: () => Promise<GenderType>;
-  birthDate: () => Promise<DateTimeOutput>;
-  email: () => Promise<String>;
+  count: () => Promise<Int>;
 }
 
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
     Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -736,21 +1166,22 @@ export interface UserSubscriptionPayloadSubscription
   previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
-export interface AggregateStudent {
-  count: Int;
-}
+/*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
 
-export interface AggregateStudentPromise
-  extends Promise<AggregateStudent>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
+/*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
 
-export interface AggregateStudentSubscription
-  extends Promise<AsyncIterator<AggregateStudent>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
+
+export type Long = string;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
@@ -768,23 +1199,6 @@ The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
 
-export type Long = string;
-
-/*
-DateTime scalar input type, allowing Date
-*/
-export type DateTimeInput = Date | string;
-
-/*
-DateTime scalar output type, which is always a string
-*/
-export type DateTimeOutput = string;
-
-/*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string;
-
 /**
  * Model Metadata
  */
@@ -799,7 +1213,15 @@ export const models: Model[] = [
     embedded: false
   },
   {
+    name: "Consulting",
+    embedded: false
+  },
+  {
     name: "GenderType",
+    embedded: false
+  },
+  {
+    name: "ProcessType",
     embedded: false
   }
 ];

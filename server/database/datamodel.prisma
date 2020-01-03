@@ -14,10 +14,27 @@ type Student {
   gender: GenderType!
   birthDate: DateTime!
   email: String!
+  consulting: [Consulting!]! @relation(link: INLINE)
+}
+
+
+type Consulting {
+  id: ID! @id
+  student: Student! 
+  process: ProcessType! @default(value: UNOCCUPIED)
+  createdAt: DateTime! @createdAt
 }
 
 enum GenderType {
   MALE
   FEMALE
   RATHER_NOT_SAY
+}
+
+enum ProcessType {
+  HIRED
+  JOB_SEEKING
+  IN_TRANSITION
+  CONSTULING
+  UNOCCUPIED
 }
