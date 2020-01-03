@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Form, FormSpy, Field } from "react-final-form";
 import {
   FullScreenLoader,
+  PopupError,
   Box,
   ButtonDefault,
   InputText
@@ -19,44 +20,45 @@ const Home = ({ refreshTokenFn }) => {
   );
   const [isActiveSubmit, setActiveSubmit] = useState(false);
   const [isAccountForm, setAccountForm] = useState(true);
+  const [isAccountError, setAccountError] = useState(null);
 
-  const [login, { loading: logInLoading, error: logInError }] = useMutation(
-    LOGIN_MUTATION,
-    {
-      onCompleted: ({ login }) => {
-        const token = login.token;
+  const [login, { loading: logInLoading }] = useMutation(LOGIN_MUTATION, {
+    onCompleted: ({ login }) => {
+      const token = login.token;
 
-        refreshTokenFn({
-          [GLOBAL.AUTH_TOKEN]: token
-        });
+      refreshTokenFn({
+        [GLOBAL.AUTH_TOKEN]: token
+      });
 
-        if (isRemember) {
-          localStorage.setItem(GLOBAL.REMEMBER_ME, login.user.username);
-        } else {
-          localStorage.removeItem(GLOBAL.REMEMBER_ME);
-        }
+      if (isRemember) {
+        localStorage.setItem(GLOBAL.REMEMBER_ME, login.user.username);
+      } else {
+        localStorage.removeItem(GLOBAL.REMEMBER_ME);
       }
+    },
+    onError: error => {
+      error.message && setAccountError(error.message.split(": ")[1]);
     }
-  );
+  });
 
-  const [signup, { loading: signUpLoading, error: signUpError }] = useMutation(
-    SIGNUP_MUTATION,
-    {
-      onCompleted: ({ signup }) => {
-        const token = signup.token;
+  const [signup, { loading: signUpLoading }] = useMutation(SIGNUP_MUTATION, {
+    onCompleted: ({ signup }) => {
+      const token = signup.token;
 
-        refreshTokenFn({
-          [GLOBAL.AUTH_TOKEN]: token
-        });
+      refreshTokenFn({
+        [GLOBAL.AUTH_TOKEN]: token
+      });
 
-        if (isRemember) {
-          localStorage.setItem(GLOBAL.REMEMBER_ME, signup.user.username);
-        } else {
-          localStorage.removeItem(GLOBAL.REMEMBER_ME);
-        }
+      if (isRemember) {
+        localStorage.setItem(GLOBAL.REMEMBER_ME, signup.user.username);
+      } else {
+        localStorage.removeItem(GLOBAL.REMEMBER_ME);
       }
+    },
+    onError: error => {
+      error.message && setAccountError(error.message.split(": ")[1]);
     }
-  );
+  });
 
   return (
     <>
@@ -312,6 +314,10 @@ const Home = ({ refreshTokenFn }) => {
       </div>
 
       <FullScreenLoader show={logInLoading || signUpLoading} />
+
+      {isAccountError && (
+        <PopupError errorMsg={isAccountError} onClose={setAccountError} />
+      )}
     </>
   );
 };

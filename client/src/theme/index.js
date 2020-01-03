@@ -1,5 +1,6 @@
 const styles = {
   colors: {
+    red: "rgba(255, 1, 0, 1)",
     blue: "rgba(80, 117, 221, 1)",
     solitudeBlue: "rgba(242, 243, 247, 1)",
     black: "rgba(53, 53, 53, 1)",
