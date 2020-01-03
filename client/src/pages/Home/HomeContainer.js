@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import Home from "./Home";
-import ViewerContext from "../../context/ViewerContext";
+import PropTypes from "prop-types";
 
 class HomeContainer extends Component {
   render() {
-    return (
-      <ViewerContext.Consumer>
-        {({ refreshTokenFn }) => <Home refreshTokenFn={refreshTokenFn} />}
-      </ViewerContext.Consumer>
-    );
+    const { refreshTokenFn } = this.props;
+
+    return <Home refreshTokenFn={refreshTokenFn} />;
   }
 }
 
 export default HomeContainer;
+
+HomeContainer.propTypes = {
+  refreshTokenFn: PropTypes.func
+};
