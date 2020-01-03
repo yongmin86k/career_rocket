@@ -92,103 +92,114 @@ const Home = ({ refreshTokenFn }) => {
                   });
                 }}
               >
-                {({ handleSubmit }) => {
+                {({ handleSubmit, form }) => {
                   return (
-                    <form onSubmit={handleSubmit}>
-                      <FormSpy
-                        subscription={{ values: true }}
-                        onChange={({ values }) => {
-                          if (!values.username) {
-                            setActiveSubmit(false);
-                          }
-                          if (!values.password) {
-                            setActiveSubmit(false);
-                          }
-                          if (values.username && values.password) {
-                            setActiveSubmit(true);
-                          }
-                        }}
-                      />
+                    <>
+                      <form onSubmit={handleSubmit}>
+                        <FormSpy
+                          subscription={{ values: true }}
+                          onChange={({ values }) => {
+                            if (!values.username) {
+                              setActiveSubmit(false);
+                            }
+                            if (!values.password) {
+                              setActiveSubmit(false);
+                            }
+                            if (values.username && values.password) {
+                              setActiveSubmit(true);
+                            }
+                          }}
+                        />
 
-                      <Field
-                        name="username"
-                        defaultValue={
-                          localStorage.getItem(GLOBAL.REMEMBER_ME)
-                            ? localStorage.getItem(GLOBAL.REMEMBER_ME)
-                            : null
-                        }
-                      >
-                        {props => {
-                          return (
-                            <InputText
-                              {...props}
-                              type="text"
-                              style={styles.input}
-                              label="Username"
-                              placeholder="Manager ID"
-                              autoComplete="username"
-                            />
-                          );
-                        }}
-                      </Field>
-
-                      <Field name="password">
-                        {props => {
-                          return (
-                            <InputText
-                              {...props}
-                              type="password"
-                              style={styles.input}
-                              label="Password"
-                              placeholder="Password"
-                              autoComplete="current-password"
-                            />
-                          );
-                        }}
-                      </Field>
-
-                      <Field
-                        name="rememberMe"
-                        type="checkbox"
-                        value={
-                          localStorage.getItem(GLOBAL.REMEMBER_ME)
-                            ? true
-                            : false
-                        }
-                      >
-                        {({ input }) => {
-                          return (
-                            <label style={styles.checkBoxContainer}>
-                              <input
-                                {...input}
-                                style={styles.inputCheckBox}
-                                type="checkbox"
-                                onClick={() => {
-                                  setRemember(!isRemember);
-                                }}
+                        <Field
+                          name="username"
+                          defaultValue={
+                            localStorage.getItem(GLOBAL.REMEMBER_ME)
+                              ? localStorage.getItem(GLOBAL.REMEMBER_ME)
+                              : null
+                          }
+                        >
+                          {props => {
+                            return (
+                              <InputText
+                                {...props}
+                                type="text"
+                                style={styles.input}
+                                label="Username"
+                                placeholder="Manager ID"
+                                autoComplete="username"
                               />
-                              <p style={styles.checkBox}>
-                                {isRemember && (
-                                  <img
-                                    style={styles.checkBoxImg}
-                                    src="/images/ic-checked.svg"
-                                    alt="Check to remember the account information"
-                                  />
-                                )}
-                              </p>
-                              <p style={styles.checkBoxLabel}>Remember me</p>
-                            </label>
-                          );
-                        }}
-                      </Field>
+                            );
+                          }}
+                        </Field>
 
-                      <ButtonDefault
-                        type="submit"
-                        isActiveSubmit={isActiveSubmit}
+                        <Field name="password">
+                          {props => {
+                            return (
+                              <InputText
+                                {...props}
+                                type="password"
+                                style={styles.input}
+                                label="Password"
+                                placeholder="Password"
+                                autoComplete="current-password"
+                              />
+                            );
+                          }}
+                        </Field>
+
+                        <Field
+                          name="rememberMe"
+                          type="checkbox"
+                          value={
+                            localStorage.getItem(GLOBAL.REMEMBER_ME)
+                              ? true
+                              : false
+                          }
+                        >
+                          {({ input }) => {
+                            return (
+                              <label style={styles.checkBoxContainer}>
+                                <input
+                                  {...input}
+                                  style={styles.inputCheckBox}
+                                  type="checkbox"
+                                  onClick={() => {
+                                    setRemember(!isRemember);
+                                  }}
+                                />
+                                <p style={styles.checkBox}>
+                                  {isRemember && (
+                                    <img
+                                      style={styles.checkBoxImg}
+                                      src="/images/ic-checked.svg"
+                                      alt="Check to remember the account information"
+                                    />
+                                  )}
+                                </p>
+                                <p style={styles.checkBoxLabel}>Remember me</p>
+                              </label>
+                            );
+                          }}
+                        </Field>
+
+                        <ButtonDefault
+                          type="submit"
+                          isActiveSubmit={isActiveSubmit}
+                        >
+                          Log in
+                        </ButtonDefault>
+                      </form>
+                      <p
+                        style={styles.accountForm(isMedia)}
+                        onClick={() => {
+                          form.reset();
+                          setAccountForm(!isAccountForm);
+                        }}
                       >
-                        Log in
-                      </ButtonDefault>
-                    </form>
+                        Create a new account
+                      </p>
+                    </>
                   );
                 }}
               </Form>
@@ -204,120 +215,126 @@ const Home = ({ refreshTokenFn }) => {
                   });
                 }}
               >
-                {({ handleSubmit }) => {
+                {({ handleSubmit, form }) => {
                   return (
-                    <form onSubmit={handleSubmit}>
-                      <FormSpy
-                        subscription={{ values: true }}
-                        onChange={({ values }) => {
-                          if (!values.username) {
-                            setActiveSubmit(false);
-                          }
-                          if (!values.password) {
-                            setActiveSubmit(false);
-                          }
-                          if (!values.email) {
-                            setActiveSubmit(false);
-                          }
-                          if (
-                            values.username &&
-                            values.password &&
-                            values.email
-                          ) {
-                            setActiveSubmit(true);
-                          }
-                        }}
-                      />
+                    <>
+                      <form onSubmit={handleSubmit}>
+                        <FormSpy
+                          subscription={{ values: true }}
+                          onChange={({ values }) => {
+                            if (!values.username) {
+                              setActiveSubmit(false);
+                            }
+                            if (!values.password) {
+                              setActiveSubmit(false);
+                            }
+                            if (!values.email) {
+                              setActiveSubmit(false);
+                            }
+                            if (!values.name) {
+                              setActiveSubmit(false);
+                            }
+                            if (
+                              values.username &&
+                              values.password &&
+                              values.email &&
+                              values.name
+                            ) {
+                              setActiveSubmit(true);
+                            }
+                          }}
+                        />
 
-                      <Field
-                        name="username"
-                        defaultValue={
-                          localStorage.getItem(GLOBAL.REMEMBER_ME)
-                            ? localStorage.getItem(GLOBAL.REMEMBER_ME)
-                            : null
-                        }
+                        <Field
+                          name="username"
+                          defaultValue={
+                            localStorage.getItem(GLOBAL.REMEMBER_ME)
+                              ? localStorage.getItem(GLOBAL.REMEMBER_ME)
+                              : null
+                          }
+                        >
+                          {props => {
+                            return (
+                              <InputText
+                                {...props}
+                                type="text"
+                                style={styles.input}
+                                label="Username*"
+                                placeholder="Manager ID"
+                                autoComplete="username"
+                              />
+                            );
+                          }}
+                        </Field>
+
+                        <Field name="password">
+                          {props => {
+                            return (
+                              <InputText
+                                {...props}
+                                type="password"
+                                style={styles.input}
+                                label="Password*"
+                                placeholder="Password"
+                                autoComplete="password"
+                              />
+                            );
+                          }}
+                        </Field>
+
+                        <Field name="email">
+                          {props => {
+                            return (
+                              <InputText
+                                {...props}
+                                type="email"
+                                style={styles.input}
+                                label="Email*"
+                                placeholder="Email"
+                                autoComplete="email"
+                              />
+                            );
+                          }}
+                        </Field>
+
+                        <Field name="name">
+                          {props => {
+                            return (
+                              <InputText
+                                {...props}
+                                type="text"
+                                style={styles.input}
+                                label="Full name*"
+                                placeholder="Full name"
+                                autoComplete="name"
+                              />
+                            );
+                          }}
+                        </Field>
+
+                        <ButtonDefault
+                          type="submit"
+                          isActiveSubmit={isActiveSubmit}
+                        >
+                          Sign Up
+                        </ButtonDefault>
+                      </form>
+                      <p
+                        style={styles.accountForm(isMedia)}
+                        onClick={() => {
+                          form.reset();
+                          setAccountForm(!isAccountForm);
+                        }}
                       >
-                        {props => {
-                          return (
-                            <InputText
-                              {...props}
-                              type="text"
-                              style={styles.input}
-                              label="Username*"
-                              placeholder="Manager ID"
-                              autoComplete="username"
-                            />
-                          );
-                        }}
-                      </Field>
-
-                      <Field name="password">
-                        {props => {
-                          return (
-                            <InputText
-                              {...props}
-                              type="password"
-                              style={styles.input}
-                              label="Password*"
-                              placeholder="Password"
-                              autoComplete="password"
-                            />
-                          );
-                        }}
-                      </Field>
-
-                      <Field name="email">
-                        {props => {
-                          return (
-                            <InputText
-                              {...props}
-                              type="email"
-                              style={styles.input}
-                              label="Email*"
-                              placeholder="Email"
-                              autoComplete="email"
-                            />
-                          );
-                        }}
-                      </Field>
-
-                      <Field name="name">
-                        {props => {
-                          return (
-                            <InputText
-                              {...props}
-                              type="text"
-                              style={styles.input}
-                              label="Full name*"
-                              placeholder="Full name"
-                              autoComplete="name"
-                            />
-                          );
-                        }}
-                      </Field>
-
-                      <ButtonDefault
-                        type="submit"
-                        isActiveSubmit={isActiveSubmit}
-                      >
-                        Sign Up
-                      </ButtonDefault>
-                    </form>
+                        Back to Log In
+                      </p>
+                    </>
                   );
                 }}
               </Form>
             </>
           )}
         </Box>
-
-        <p
-          style={styles.accountForm(isMedia)}
-          onClick={() => {
-            setAccountForm(!isAccountForm);
-          }}
-        >
-          {isAccountForm ? "Create a new account" : "Back to Log In"}
-        </p>
 
         {isMedia === "mobile" && (
           <p style={styles.copyRights(isMedia)}>Yongmin Kim © 2019</p>

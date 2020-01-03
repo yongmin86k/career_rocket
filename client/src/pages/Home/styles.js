@@ -47,15 +47,16 @@ const styles = {
         }
       : {
           minWidth: 456,
-          padding: THEME.spacing(2.25)
+          padding: THEME.spacing(4)
         },
   logo: isMedia => ({
     display: "block",
     width: 212,
     height: 50,
-    marginBottom: isMedia === "mobile" ? 0 : THEME.spacing(10)
+    marginBottom: isMedia === "mobile" ? 0 : THEME.spacing(7)
   }),
   box: isMedia => ({
+    position: "relative",
     margin: "0 auto",
     marginTop: isMedia === "mobile" ? THEME.spacing(2.75) : 0,
     width: isMedia === "mobile" ? "100%" : 312,
@@ -105,9 +106,12 @@ const styles = {
     color: THEME.colors.grey
   },
   accountForm: isMedia => ({
+    position: "absolute",
+    bottom: THEME.spacing() * -2.5,
+    left: "50%",
+    transform: "translateX(-50%)",
     ...THEME.typography.caption,
     cursor: "pointer",
-    marginTop: THEME.spacing(1),
     textDecoration: "underline",
     textAlign: "center",
     color: isMedia === "mobile" ? "white" : THEME.colors.blue
