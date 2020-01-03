@@ -6,3 +6,18 @@ type User {
   password: String!
   createdAt: DateTime! @createdAt
 }
+
+type Student {
+  id: ID! @id
+  profileImg: String
+  name: String!
+  gender: GenderType!
+  birthDate: DateTime!
+  email: String!
+}
+
+enum GenderType {
+  MALE
+  FEMALE
+  RATHER_NOT_SAY
+}

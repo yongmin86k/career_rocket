@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregateStudent {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -13,9 +17,21 @@ type BatchPayload {
 
 scalar DateTime
 
+enum GenderType {
+  MALE
+  FEMALE
+  RATHER_NOT_SAY
+}
+
 scalar Long
 
 type Mutation {
+  createStudent(data: StudentCreateInput!): Student!
+  updateStudent(data: StudentUpdateInput!, where: StudentWhereUniqueInput!): Student
+  updateManyStudents(data: StudentUpdateManyMutationInput!, where: StudentWhereInput): BatchPayload!
+  upsertStudent(where: StudentWhereUniqueInput!, create: StudentCreateInput!, update: StudentUpdateInput!): Student!
+  deleteStudent(where: StudentWhereUniqueInput!): Student
+  deleteManyStudents(where: StudentWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -42,13 +58,182 @@ type PageInfo {
 }
 
 type Query {
+  student(where: StudentWhereUniqueInput!): Student
+  students(where: StudentWhereInput, orderBy: StudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Student]!
+  studentsConnection(where: StudentWhereInput, orderBy: StudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StudentConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
 }
 
+type Student {
+  id: ID!
+  profileImg: String
+  name: String!
+  gender: GenderType!
+  birthDate: DateTime!
+  email: String!
+}
+
+type StudentConnection {
+  pageInfo: PageInfo!
+  edges: [StudentEdge]!
+  aggregate: AggregateStudent!
+}
+
+input StudentCreateInput {
+  id: ID
+  profileImg: String
+  name: String!
+  gender: GenderType!
+  birthDate: DateTime!
+  email: String!
+}
+
+type StudentEdge {
+  node: Student!
+  cursor: String!
+}
+
+enum StudentOrderByInput {
+  id_ASC
+  id_DESC
+  profileImg_ASC
+  profileImg_DESC
+  name_ASC
+  name_DESC
+  gender_ASC
+  gender_DESC
+  birthDate_ASC
+  birthDate_DESC
+  email_ASC
+  email_DESC
+}
+
+type StudentPreviousValues {
+  id: ID!
+  profileImg: String
+  name: String!
+  gender: GenderType!
+  birthDate: DateTime!
+  email: String!
+}
+
+type StudentSubscriptionPayload {
+  mutation: MutationType!
+  node: Student
+  updatedFields: [String!]
+  previousValues: StudentPreviousValues
+}
+
+input StudentSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: StudentWhereInput
+  AND: [StudentSubscriptionWhereInput!]
+  OR: [StudentSubscriptionWhereInput!]
+  NOT: [StudentSubscriptionWhereInput!]
+}
+
+input StudentUpdateInput {
+  profileImg: String
+  name: String
+  gender: GenderType
+  birthDate: DateTime
+  email: String
+}
+
+input StudentUpdateManyMutationInput {
+  profileImg: String
+  name: String
+  gender: GenderType
+  birthDate: DateTime
+  email: String
+}
+
+input StudentWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  profileImg: String
+  profileImg_not: String
+  profileImg_in: [String!]
+  profileImg_not_in: [String!]
+  profileImg_lt: String
+  profileImg_lte: String
+  profileImg_gt: String
+  profileImg_gte: String
+  profileImg_contains: String
+  profileImg_not_contains: String
+  profileImg_starts_with: String
+  profileImg_not_starts_with: String
+  profileImg_ends_with: String
+  profileImg_not_ends_with: String
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  gender: GenderType
+  gender_not: GenderType
+  gender_in: [GenderType!]
+  gender_not_in: [GenderType!]
+  birthDate: DateTime
+  birthDate_not: DateTime
+  birthDate_in: [DateTime!]
+  birthDate_not_in: [DateTime!]
+  birthDate_lt: DateTime
+  birthDate_lte: DateTime
+  birthDate_gt: DateTime
+  birthDate_gte: DateTime
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  AND: [StudentWhereInput!]
+  OR: [StudentWhereInput!]
+  NOT: [StudentWhereInput!]
+}
+
+input StudentWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
+  student(where: StudentSubscriptionWhereInput): StudentSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 

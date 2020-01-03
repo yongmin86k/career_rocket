@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  student: (where?: StudentWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -38,6 +39,25 @@ export interface Prisma {
    * Queries
    */
 
+  student: (where: StudentWhereUniqueInput) => StudentNullablePromise;
+  students: (args?: {
+    where?: StudentWhereInput;
+    orderBy?: StudentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Student>;
+  studentsConnection: (args?: {
+    where?: StudentWhereInput;
+    orderBy?: StudentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => StudentConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -63,6 +83,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createStudent: (data: StudentCreateInput) => StudentPromise;
+  updateStudent: (args: {
+    data: StudentUpdateInput;
+    where: StudentWhereUniqueInput;
+  }) => StudentPromise;
+  updateManyStudents: (args: {
+    data: StudentUpdateManyMutationInput;
+    where?: StudentWhereInput;
+  }) => BatchPayloadPromise;
+  upsertStudent: (args: {
+    where: StudentWhereUniqueInput;
+    create: StudentCreateInput;
+    update: StudentUpdateInput;
+  }) => StudentPromise;
+  deleteStudent: (where: StudentWhereUniqueInput) => StudentPromise;
+  deleteManyStudents: (where?: StudentWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -88,6 +124,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  student: (
+    where?: StudentSubscriptionWhereInput
+  ) => StudentSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -100,6 +139,24 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type StudentOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "profileImg_ASC"
+  | "profileImg_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "gender_ASC"
+  | "gender_DESC"
+  | "birthDate_ASC"
+  | "birthDate_DESC"
+  | "email_ASC"
+  | "email_DESC";
+
+export type GenderType = "MALE" | "FEMALE" | "RATHER_NOT_SAY";
+
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -115,21 +172,97 @@ export type UserOrderByInput =
   | "createdAt_ASC"
   | "createdAt_DESC";
 
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  email: String;
-  username: String;
-  password: String;
-}
-
 export interface UserUpdateInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   username?: Maybe<String>;
   password?: Maybe<String>;
+}
+
+export interface StudentUpdateInput {
+  profileImg?: Maybe<String>;
+  name?: Maybe<String>;
+  gender?: Maybe<GenderType>;
+  birthDate?: Maybe<DateTimeInput>;
+  email?: Maybe<String>;
+}
+
+export type StudentWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface StudentWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  profileImg?: Maybe<String>;
+  profileImg_not?: Maybe<String>;
+  profileImg_in?: Maybe<String[] | String>;
+  profileImg_not_in?: Maybe<String[] | String>;
+  profileImg_lt?: Maybe<String>;
+  profileImg_lte?: Maybe<String>;
+  profileImg_gt?: Maybe<String>;
+  profileImg_gte?: Maybe<String>;
+  profileImg_contains?: Maybe<String>;
+  profileImg_not_contains?: Maybe<String>;
+  profileImg_starts_with?: Maybe<String>;
+  profileImg_not_starts_with?: Maybe<String>;
+  profileImg_ends_with?: Maybe<String>;
+  profileImg_not_ends_with?: Maybe<String>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  gender?: Maybe<GenderType>;
+  gender_not?: Maybe<GenderType>;
+  gender_in?: Maybe<GenderType[] | GenderType>;
+  gender_not_in?: Maybe<GenderType[] | GenderType>;
+  birthDate?: Maybe<DateTimeInput>;
+  birthDate_not?: Maybe<DateTimeInput>;
+  birthDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  birthDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  birthDate_lt?: Maybe<DateTimeInput>;
+  birthDate_lte?: Maybe<DateTimeInput>;
+  birthDate_gt?: Maybe<DateTimeInput>;
+  birthDate_gte?: Maybe<DateTimeInput>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  AND?: Maybe<StudentWhereInput[] | StudentWhereInput>;
+  OR?: Maybe<StudentWhereInput[] | StudentWhereInput>;
+  NOT?: Maybe<StudentWhereInput[] | StudentWhereInput>;
 }
 
 export interface UserWhereInput {
@@ -216,11 +349,46 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface UserUpdateManyMutationInput {
-  name?: Maybe<String>;
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
   email?: Maybe<String>;
   username?: Maybe<String>;
-  password?: Maybe<String>;
+}>;
+
+export interface StudentCreateInput {
+  id?: Maybe<ID_Input>;
+  profileImg?: Maybe<String>;
+  name: String;
+  gender: GenderType;
+  birthDate: DateTimeInput;
+  email: String;
+}
+
+export interface StudentSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<StudentWhereInput>;
+  AND?: Maybe<StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput>;
+  OR?: Maybe<StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput>;
+  NOT?: Maybe<StudentSubscriptionWhereInput[] | StudentSubscriptionWhereInput>;
+}
+
+export interface StudentUpdateManyMutationInput {
+  profileImg?: Maybe<String>;
+  name?: Maybe<String>;
+  gender?: Maybe<GenderType>;
+  birthDate?: Maybe<DateTimeInput>;
+  email?: Maybe<String>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  email: String;
+  username: String;
+  password: String;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -234,112 +402,15 @@ export interface UserSubscriptionWhereInput {
   NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
+export interface UserUpdateManyMutationInput {
+  name?: Maybe<String>;
   email?: Maybe<String>;
   username?: Maybe<String>;
-}>;
+  password?: Maybe<String>;
+}
 
 export interface NodeNode {
   id: ID_Output;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface User {
-  id: ID_Output;
-  name: String;
-  email: String;
-  username: String;
-  password: String;
-  createdAt: DateTimeOutput;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
-  username: () => Promise<String>;
-  password: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  username: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
-  username: () => Promise<String>;
-  password: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface UserConnection {
@@ -386,22 +457,6 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateUser {
-  count: Int;
-}
-
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
 export interface UserPreviousValues {
   id: ID_Output;
   name: String;
@@ -433,6 +488,288 @@ export interface UserPreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface StudentConnection {
+  pageInfo: PageInfo;
+  edges: StudentEdge[];
+}
+
+export interface StudentConnectionPromise
+  extends Promise<StudentConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<StudentEdge>>() => T;
+  aggregate: <T = AggregateStudentPromise>() => T;
+}
+
+export interface StudentConnectionSubscription
+  extends Promise<AsyncIterator<StudentConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<StudentEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateStudentSubscription>() => T;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface StudentSubscriptionPayload {
+  mutation: MutationType;
+  node: Student;
+  updatedFields: String[];
+  previousValues: StudentPreviousValues;
+}
+
+export interface StudentSubscriptionPayloadPromise
+  extends Promise<StudentSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = StudentPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = StudentPreviousValuesPromise>() => T;
+}
+
+export interface StudentSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<StudentSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = StudentSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = StudentPreviousValuesSubscription>() => T;
+}
+
+export interface StudentPreviousValues {
+  id: ID_Output;
+  profileImg?: String;
+  name: String;
+  gender: GenderType;
+  birthDate: DateTimeOutput;
+  email: String;
+}
+
+export interface StudentPreviousValuesPromise
+  extends Promise<StudentPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  profileImg: () => Promise<String>;
+  name: () => Promise<String>;
+  gender: () => Promise<GenderType>;
+  birthDate: () => Promise<DateTimeOutput>;
+  email: () => Promise<String>;
+}
+
+export interface StudentPreviousValuesSubscription
+  extends Promise<AsyncIterator<StudentPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  profileImg: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  gender: () => Promise<AsyncIterator<GenderType>>;
+  birthDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  email: () => Promise<AsyncIterator<String>>;
+}
+
+export interface StudentEdge {
+  node: Student;
+  cursor: String;
+}
+
+export interface StudentEdgePromise extends Promise<StudentEdge>, Fragmentable {
+  node: <T = StudentPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface StudentEdgeSubscription
+  extends Promise<AsyncIterator<StudentEdge>>,
+    Fragmentable {
+  node: <T = StudentSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface User {
+  id: ID_Output;
+  name: String;
+  email: String;
+  username: String;
+  password: String;
+  createdAt: DateTimeOutput;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  username: () => Promise<String>;
+  password: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  username: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  username: () => Promise<String>;
+  password: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Student {
+  id: ID_Output;
+  profileImg?: String;
+  name: String;
+  gender: GenderType;
+  birthDate: DateTimeOutput;
+  email: String;
+}
+
+export interface StudentPromise extends Promise<Student>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  profileImg: () => Promise<String>;
+  name: () => Promise<String>;
+  gender: () => Promise<GenderType>;
+  birthDate: () => Promise<DateTimeOutput>;
+  email: () => Promise<String>;
+}
+
+export interface StudentSubscription
+  extends Promise<AsyncIterator<Student>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  profileImg: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  gender: () => Promise<AsyncIterator<GenderType>>;
+  birthDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  email: () => Promise<AsyncIterator<String>>;
+}
+
+export interface StudentNullablePromise
+  extends Promise<Student | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  profileImg: () => Promise<String>;
+  name: () => Promise<String>;
+  gender: () => Promise<GenderType>;
+  birthDate: () => Promise<DateTimeOutput>;
+  email: () => Promise<String>;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface AggregateStudent {
+  count: Int;
+}
+
+export interface AggregateStudentPromise
+  extends Promise<AggregateStudent>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateStudentSubscription
+  extends Promise<AsyncIterator<AggregateStudent>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
+
+/*
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+*/
+export type ID_Input = string | number;
+export type ID_Output = string;
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
+export type Long = string;
+
 /*
 DateTime scalar input type, allowing Date
 */
@@ -444,27 +781,9 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
-
-/*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
-
-/*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
-
-export type Long = string;
 
 /**
  * Model Metadata
@@ -473,6 +792,14 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Student",
+    embedded: false
+  },
+  {
+    name: "GenderType",
     embedded: false
   }
 ];
