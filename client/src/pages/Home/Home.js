@@ -12,6 +12,7 @@ import {
 } from "../../components";
 import styles from "./styles";
 import GLOBAL from "../../global";
+import { useMediaQuery } from "../../hooks";
 import PropTypes from "prop-types";
 
 const Home = ({ refreshTokenFn }) => {
@@ -60,15 +61,23 @@ const Home = ({ refreshTokenFn }) => {
     }
   });
 
+  const isMedia = useMediaQuery();
+
   return (
-    <>
-      <div style={styles.bgContainer}></div>
-      <div style={styles.container}>
+    <div style={styles.page(isMedia)}>
+      <div style={styles.bgContainer(isMedia)}>
+        {isMedia !== "mobile" && <div style={styles.imgWelcome} />}
+      </div>
+      <div style={styles.container(isMedia)}>
         <Link to="/">
-          <img src="/images/logo-std-blue.svg" alt="Career Rocket" />
+          <img
+            style={styles.logo(isMedia)}
+            src="/images/logo-std-blue.svg"
+            alt="Career Rocket"
+          />
         </Link>
 
-        <Box style={styles.box}>
+        <Box style={styles.box(isMedia)}>
           {isAccountForm ? (
             <>
               <h1 style={styles.title}>Log In</h1>
@@ -302,7 +311,7 @@ const Home = ({ refreshTokenFn }) => {
         </Box>
 
         <p
-          style={styles.accountForm}
+          style={styles.accountForm(isMedia)}
           onClick={() => {
             setAccountForm(!isAccountForm);
           }}
@@ -310,15 +319,20 @@ const Home = ({ refreshTokenFn }) => {
           {isAccountForm ? "Create a new account" : "Back to Log In"}
         </p>
 
-        <p style={styles.copyRights}>Yongmin Kim © 2019</p>
+        {isMedia === "mobile" && (
+          <p style={styles.copyRights(isMedia)}>Yongmin Kim © 2019</p>
+        )}
       </div>
 
+      {isMedia !== "mobile" && (
+        <p style={styles.copyRights(isMedia)}>Yongmin Kim © 2019</p>
+      )}
       <FullScreenLoader show={logInLoading || signUpLoading} />
 
       {isAccountError && (
         <PopupError errorMsg={isAccountError} onClose={setAccountError} />
       )}
-    </>
+    </div>
   );
 };
 
