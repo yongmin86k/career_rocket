@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import ViewerContext from "../context/ViewerContext";
-import { Home, Main } from "../pages";
+import { Home, Overview } from "../pages";
 import { PrivateRoute } from "../components";
 
 const Routes = props => {
@@ -20,7 +20,7 @@ const Routes = props => {
     </Switch>
   ) : (
     <Switch>
-      <PrivateRoute exact path="/main" component={Main} />
+      <PrivateRoute exact path="/main" component={Overview} />
       <Redirect from="*" to="/main" />
     </Switch>
   );

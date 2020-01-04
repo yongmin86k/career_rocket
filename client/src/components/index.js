@@ -1,4 +1,6 @@
 export { default as Box } from "./Box";
+export { default as BottomTab } from "./BottomTab";
+export { default as BottomTabIcon } from "./BottomTabIcon";
 export { default as InputText } from "./InputText";
 export { default as ButtonDefault } from "./ButtonDefault";
 export { default as ButtonError } from "./ButtonError";
