@@ -69,7 +69,6 @@ export class ViewerProvider extends Component {
     return (
       <ViewerContext.Provider
         value={{
-          token: this.state.token,
           refreshTokenFn: this.refreshTokenFn
         }}
       >
