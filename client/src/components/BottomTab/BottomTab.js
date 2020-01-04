@@ -5,11 +5,15 @@ import { BottomTabIcon } from "../../components";
 const BottomTab = () => {
   return (
     <div style={styles.container}>
-      <BottomTabIcon active={true} label="Overview" image="ic-overview" />
-      <BottomTabIcon active={false} label="Job Training" image="ic-job-train" />
-      <BottomTabIcon active={false} label="Clients" image="ic-clients" />
-      <BottomTabIcon active={false} label="Settings" image="ic-settings" />
-      <BottomTabIcon active={false} label="Log Out" image="ic-log-out" />
+      <BottomTabIcon link="/main" label="Overview" image="ic-overview" />
+      <BottomTabIcon
+        link="/job_training"
+        label="Job Training"
+        image="ic-job-train"
+      />
+      <BottomTabIcon link="/clients" label="Clients" image="ic-clients" />
+      <BottomTabIcon link="/settings" label="Settings" image="ic-settings" />
+      <BottomTabIcon link="/log_out" label="Log Out" image="ic-log-out" />
     </div>
   );
 };
