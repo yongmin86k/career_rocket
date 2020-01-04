@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import ViewerContext from "../context/ViewerContext";
-import { Home, Overview, JobTraining } from "../pages";
+import { Home, Overview, JobTraining, Logout } from "../pages";
 import { BottomTab, PrivateRoute } from "../components";
 import GLOBAL from "../global";
 
@@ -23,7 +23,11 @@ const Routes = props => {
   ) : (
     <>
       <Switch>
+        <PrivateRoute exact path="/logout" component={Logout} />
         <PrivateRoute exact path="/job_training" component={JobTraining} />
+        <PrivateRoute exact path="/main/job_training" component={Overview} />
+        <PrivateRoute exact path="/main/process" component={Overview} />
+        <PrivateRoute exact path="/main/status" component={Overview} />
         <PrivateRoute exact path="/main" component={Overview} />
         <Redirect from="*" to="/main" />
       </Switch>

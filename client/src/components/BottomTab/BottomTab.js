@@ -13,7 +13,7 @@ const BottomTab = () => {
       />
       <BottomTabIcon link="/clients" label="Clients" image="ic-clients" />
       <BottomTabIcon link="/settings" label="Settings" image="ic-settings" />
-      <BottomTabIcon link="/log_out" label="Log Out" image="ic-log-out" />
+      <BottomTabIcon link="/logout" label="Log Out" image="ic-log-out" />
     </div>
   );
 };

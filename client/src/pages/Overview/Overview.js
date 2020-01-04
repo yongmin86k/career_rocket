@@ -1,27 +1,55 @@
 import React from "react";
+import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import styles from "./styles";
-import GLOBAL from "../../global";
-import PropTypes from "prop-types";
 
-const Overview = ({ token, refreshTokenFn }) => {
+const Overview = ({ location }) => {
   return (
     <div style={styles.page}>
-      <div
-        onClick={() => {
-          refreshTokenFn({
-            [GLOBAL.AUTH_TOKEN]: null
-          });
-        }}
-      >
-        Logout
-      </div>
+      <header style={styles.segmentController}>
+        <Link to="/main/status" style={styles.link}>
+          <div
+            style={
+              location.pathname === "/main" ||
+              location.pathname === "/main/status"
+                ? { ...styles.segment, ...styles.left, ...styles.active }
+                : { ...styles.segment, ...styles.left }
+            }
+          >
+            Client Status
+          </div>
+        </Link>
+
+        <div style={styles.separator} />
+
+        <Link to="/main/process" style={styles.link}>
+          <div
+            style={
+              location.pathname === "/main/process"
+                ? { ...styles.segment, ...styles.center, ...styles.active }
+                : { ...styles.segment, ...styles.center }
+            }
+          >
+            Consulting process
+          </div>
+        </Link>
+
+        <div style={styles.separator} />
+
+        <Link to="/main/job_training" style={styles.link}>
+          <div
+            style={
+              location.pathname === "/main/job_training"
+                ? { ...styles.segment, ...styles.right, ...styles.active }
+                : { ...styles.segment, ...styles.right }
+            }
+          >
+            Job Traning Courses
+          </div>
+        </Link>
+      </header>
     </div>
   );
 };
 
-export default Overview;
-
-Overview.propTypes = {
-  token: PropTypes.string.isRequired,
-  refreshTokenFn: PropTypes.func
-};
+export default withRouter(Overview);

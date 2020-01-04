@@ -8,7 +8,6 @@ const BottomTabIcon = ({ label, image, link }) => {
 
   return (
     <NavLink
-      exact
       to={link}
       isActive={match => {
         if (!match) {
