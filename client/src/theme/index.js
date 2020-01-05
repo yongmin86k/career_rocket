@@ -39,6 +39,12 @@ const styles = {
     paddingRight: 16
   },
 
+  box: {
+    borderRadius: 4,
+    border: "solid 1px #d6d6d6",
+    backgroundColor: "white"
+  },
+
   shadow: {
     borderRadius: 8,
     boxShadow: "0 2px 12px 0 rgba(80, 117, 221, 0.24)",

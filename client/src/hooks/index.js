@@ -22,3 +22,27 @@ export const useMediaQuery = () => {
 
   return isDevice;
 };
+
+export const useWindowDimensions = () => {
+  const {
+    screen: { width, height }
+  } = window;
+
+  const [isDimension, setDimension] = useState({ width, height });
+
+  const resizeScreen = () => {
+    const {
+      screen: { width, height }
+    } = window;
+
+    setDimension({ width, height });
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", resizeScreen);
+
+    return () => window.removeEventListener("resize", resizeScreen);
+  });
+
+  return isDimension;
+};

@@ -18,7 +18,6 @@ const styles = {
     overflow: "hidden",
     opacity: 1,
     visibility: "visible",
-    transition: THEME.transition,
     zIndex: 999
   },
   popup: isMedia => ({
@@ -29,7 +28,8 @@ const styles = {
     padding: THEME.spacing(),
     paddingTop: 24,
     paddingBottom: 20,
-    width: isMedia === "mobile" ? "100%" : 280
+    width: isMedia === "mobile" ? "100%" : 280,
+    transition: THEME.transition
   }),
   iconError: {
     width: 50,
