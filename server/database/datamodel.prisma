@@ -15,13 +15,20 @@ type Student {
   birthDate: DateTime!
   email: String!
   consulting: [Consulting!]! @relation(link: INLINE)
+  studentState: [StudentState!]! @relation(link: INLINE)
 }
-
 
 type Consulting {
   id: ID! @id
   student: Student! 
   process: ProcessType! @default(value: UNOCCUPIED)
+  createdAt: DateTime! @createdAt
+}
+
+type StudentState {
+  id: ID! @id
+  student: Student! 
+  statusType: StatusType! @default(value: IN_PROGRESS)
   createdAt: DateTime! @createdAt
 }
 
@@ -37,4 +44,11 @@ enum ProcessType {
   IN_TRANSITION
   CONSTULING
   UNOCCUPIED
+}
+
+enum StatusType {
+  LAYOFF
+  WITHDRAW
+  IN_PROGRESS
+  HIRED
 }

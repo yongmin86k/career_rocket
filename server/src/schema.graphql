@@ -5,6 +5,31 @@ type User {
   username: String!
 }
 
+type Student {
+  id: ID!
+  profileImg: String
+  name: String!
+  gender: String!
+  birthDate: String!
+  email: String!
+  consulting: [Consulting]!
+  studentState: [StudentState]!
+}
+
+type Consulting {
+  id: ID!
+  student: Student!
+  process: String!
+  createdAt: String!
+}
+
+type StudentState {
+  id: ID!
+  student: Student!
+  statusType: String!
+  createdAt: String!
+}
+
 type AuthPayload {
   token: String
   user: User
@@ -12,6 +37,7 @@ type AuthPayload {
 
 type Query {
   users: [User]!
+  students: [Student]!
 }
 
 type Mutation {

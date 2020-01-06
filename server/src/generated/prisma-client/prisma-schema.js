@@ -11,6 +11,10 @@ type AggregateStudent {
   count: Int!
 }
 
+type AggregateStudentState {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -223,6 +227,12 @@ type Mutation {
   upsertStudent(where: StudentWhereUniqueInput!, create: StudentCreateInput!, update: StudentUpdateInput!): Student!
   deleteStudent(where: StudentWhereUniqueInput!): Student
   deleteManyStudents(where: StudentWhereInput): BatchPayload!
+  createStudentState(data: StudentStateCreateInput!): StudentState!
+  updateStudentState(data: StudentStateUpdateInput!, where: StudentStateWhereUniqueInput!): StudentState
+  updateManyStudentStates(data: StudentStateUpdateManyMutationInput!, where: StudentStateWhereInput): BatchPayload!
+  upsertStudentState(where: StudentStateWhereUniqueInput!, create: StudentStateCreateInput!, update: StudentStateUpdateInput!): StudentState!
+  deleteStudentState(where: StudentStateWhereUniqueInput!): StudentState
+  deleteManyStudentStates(where: StudentStateWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -263,10 +273,20 @@ type Query {
   student(where: StudentWhereUniqueInput!): Student
   students(where: StudentWhereInput, orderBy: StudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Student]!
   studentsConnection(where: StudentWhereInput, orderBy: StudentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StudentConnection!
+  studentState(where: StudentStateWhereUniqueInput!): StudentState
+  studentStates(where: StudentStateWhereInput, orderBy: StudentStateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [StudentState]!
+  studentStatesConnection(where: StudentStateWhereInput, orderBy: StudentStateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StudentStateConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
+}
+
+enum StatusType {
+  LAYOFF
+  WITHDRAW
+  IN_PROGRESS
+  HIRED
 }
 
 type Student {
@@ -277,6 +297,7 @@ type Student {
   birthDate: DateTime!
   email: String!
   consulting(where: ConsultingWhereInput, orderBy: ConsultingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Consulting!]
+  studentState(where: StudentStateWhereInput, orderBy: StudentStateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [StudentState!]
 }
 
 type StudentConnection {
@@ -293,10 +314,16 @@ input StudentCreateInput {
   birthDate: DateTime!
   email: String!
   consulting: ConsultingCreateManyWithoutStudentInput
+  studentState: StudentStateCreateManyWithoutStudentInput
 }
 
 input StudentCreateOneWithoutConsultingInput {
   create: StudentCreateWithoutConsultingInput
+  connect: StudentWhereUniqueInput
+}
+
+input StudentCreateOneWithoutStudentStateInput {
+  create: StudentCreateWithoutStudentStateInput
   connect: StudentWhereUniqueInput
 }
 
@@ -307,6 +334,17 @@ input StudentCreateWithoutConsultingInput {
   gender: GenderType!
   birthDate: DateTime!
   email: String!
+  studentState: StudentStateCreateManyWithoutStudentInput
+}
+
+input StudentCreateWithoutStudentStateInput {
+  id: ID
+  profileImg: String
+  name: String!
+  gender: GenderType!
+  birthDate: DateTime!
+  email: String!
+  consulting: ConsultingCreateManyWithoutStudentInput
 }
 
 type StudentEdge {
@@ -338,6 +376,187 @@ type StudentPreviousValues {
   email: String!
 }
 
+type StudentState {
+  id: ID!
+  student: Student!
+  statusType: StatusType!
+  createdAt: DateTime!
+}
+
+type StudentStateConnection {
+  pageInfo: PageInfo!
+  edges: [StudentStateEdge]!
+  aggregate: AggregateStudentState!
+}
+
+input StudentStateCreateInput {
+  id: ID
+  student: StudentCreateOneWithoutStudentStateInput!
+  statusType: StatusType
+}
+
+input StudentStateCreateManyWithoutStudentInput {
+  create: [StudentStateCreateWithoutStudentInput!]
+  connect: [StudentStateWhereUniqueInput!]
+}
+
+input StudentStateCreateWithoutStudentInput {
+  id: ID
+  statusType: StatusType
+}
+
+type StudentStateEdge {
+  node: StudentState!
+  cursor: String!
+}
+
+enum StudentStateOrderByInput {
+  id_ASC
+  id_DESC
+  statusType_ASC
+  statusType_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type StudentStatePreviousValues {
+  id: ID!
+  statusType: StatusType!
+  createdAt: DateTime!
+}
+
+input StudentStateScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  statusType: StatusType
+  statusType_not: StatusType
+  statusType_in: [StatusType!]
+  statusType_not_in: [StatusType!]
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [StudentStateScalarWhereInput!]
+  OR: [StudentStateScalarWhereInput!]
+  NOT: [StudentStateScalarWhereInput!]
+}
+
+type StudentStateSubscriptionPayload {
+  mutation: MutationType!
+  node: StudentState
+  updatedFields: [String!]
+  previousValues: StudentStatePreviousValues
+}
+
+input StudentStateSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: StudentStateWhereInput
+  AND: [StudentStateSubscriptionWhereInput!]
+  OR: [StudentStateSubscriptionWhereInput!]
+  NOT: [StudentStateSubscriptionWhereInput!]
+}
+
+input StudentStateUpdateInput {
+  student: StudentUpdateOneRequiredWithoutStudentStateInput
+  statusType: StatusType
+}
+
+input StudentStateUpdateManyDataInput {
+  statusType: StatusType
+}
+
+input StudentStateUpdateManyMutationInput {
+  statusType: StatusType
+}
+
+input StudentStateUpdateManyWithoutStudentInput {
+  create: [StudentStateCreateWithoutStudentInput!]
+  delete: [StudentStateWhereUniqueInput!]
+  connect: [StudentStateWhereUniqueInput!]
+  set: [StudentStateWhereUniqueInput!]
+  disconnect: [StudentStateWhereUniqueInput!]
+  update: [StudentStateUpdateWithWhereUniqueWithoutStudentInput!]
+  upsert: [StudentStateUpsertWithWhereUniqueWithoutStudentInput!]
+  deleteMany: [StudentStateScalarWhereInput!]
+  updateMany: [StudentStateUpdateManyWithWhereNestedInput!]
+}
+
+input StudentStateUpdateManyWithWhereNestedInput {
+  where: StudentStateScalarWhereInput!
+  data: StudentStateUpdateManyDataInput!
+}
+
+input StudentStateUpdateWithoutStudentDataInput {
+  statusType: StatusType
+}
+
+input StudentStateUpdateWithWhereUniqueWithoutStudentInput {
+  where: StudentStateWhereUniqueInput!
+  data: StudentStateUpdateWithoutStudentDataInput!
+}
+
+input StudentStateUpsertWithWhereUniqueWithoutStudentInput {
+  where: StudentStateWhereUniqueInput!
+  update: StudentStateUpdateWithoutStudentDataInput!
+  create: StudentStateCreateWithoutStudentInput!
+}
+
+input StudentStateWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  student: StudentWhereInput
+  statusType: StatusType
+  statusType_not: StatusType
+  statusType_in: [StatusType!]
+  statusType_not_in: [StatusType!]
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [StudentStateWhereInput!]
+  OR: [StudentStateWhereInput!]
+  NOT: [StudentStateWhereInput!]
+}
+
+input StudentStateWhereUniqueInput {
+  id: ID
+}
+
 type StudentSubscriptionPayload {
   mutation: MutationType!
   node: Student
@@ -363,6 +582,7 @@ input StudentUpdateInput {
   birthDate: DateTime
   email: String
   consulting: ConsultingUpdateManyWithoutStudentInput
+  studentState: StudentStateUpdateManyWithoutStudentInput
 }
 
 input StudentUpdateManyMutationInput {
@@ -380,17 +600,39 @@ input StudentUpdateOneRequiredWithoutConsultingInput {
   connect: StudentWhereUniqueInput
 }
 
+input StudentUpdateOneRequiredWithoutStudentStateInput {
+  create: StudentCreateWithoutStudentStateInput
+  update: StudentUpdateWithoutStudentStateDataInput
+  upsert: StudentUpsertWithoutStudentStateInput
+  connect: StudentWhereUniqueInput
+}
+
 input StudentUpdateWithoutConsultingDataInput {
   profileImg: String
   name: String
   gender: GenderType
   birthDate: DateTime
   email: String
+  studentState: StudentStateUpdateManyWithoutStudentInput
+}
+
+input StudentUpdateWithoutStudentStateDataInput {
+  profileImg: String
+  name: String
+  gender: GenderType
+  birthDate: DateTime
+  email: String
+  consulting: ConsultingUpdateManyWithoutStudentInput
 }
 
 input StudentUpsertWithoutConsultingInput {
   update: StudentUpdateWithoutConsultingDataInput!
   create: StudentCreateWithoutConsultingInput!
+}
+
+input StudentUpsertWithoutStudentStateInput {
+  update: StudentUpdateWithoutStudentStateDataInput!
+  create: StudentCreateWithoutStudentStateInput!
 }
 
 input StudentWhereInput {
@@ -465,6 +707,9 @@ input StudentWhereInput {
   consulting_every: ConsultingWhereInput
   consulting_some: ConsultingWhereInput
   consulting_none: ConsultingWhereInput
+  studentState_every: StudentStateWhereInput
+  studentState_some: StudentStateWhereInput
+  studentState_none: StudentStateWhereInput
   AND: [StudentWhereInput!]
   OR: [StudentWhereInput!]
   NOT: [StudentWhereInput!]
@@ -477,6 +722,7 @@ input StudentWhereUniqueInput {
 type Subscription {
   consulting(where: ConsultingSubscriptionWhereInput): ConsultingSubscriptionPayload
   student(where: StudentSubscriptionWhereInput): StudentSubscriptionPayload
+  studentState(where: StudentStateSubscriptionWhereInput): StudentStateSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 

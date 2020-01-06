@@ -17,11 +17,19 @@ var models = [
     embedded: false
   },
   {
+    name: "StudentState",
+    embedded: false
+  },
+  {
     name: "GenderType",
     embedded: false
   },
   {
     name: "ProcessType",
+    embedded: false
+  },
+  {
+    name: "StatusType",
     embedded: false
   }
 ];
