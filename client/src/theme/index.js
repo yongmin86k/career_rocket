@@ -7,7 +7,14 @@ const styles = {
     hoverBlue: "rgba(39, 57, 108, 1)",
     solitudeBlue: "rgba(242, 243, 247, 1)",
     black: "rgba(53, 53, 53, 1)",
-    grey: "rgba(137, 139, 141, 1)"
+    grey: "rgba(137, 139, 141, 1)",
+    lightGrey: "rgba(214, 214, 214, 1)",
+    legends: {
+      yellow: "rgba(255, 201, 71, 1)",
+      grey: "rgba(214, 214, 214, 1)",
+      lightBlue: "rgba(136, 173, 240, 1)",
+      mainBlue: "rgba(80, 117, 221, 1)"
+    }
   },
 
   typography: {
