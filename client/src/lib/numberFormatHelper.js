@@ -1,4 +1,8 @@
 export const legendFormatHelper = number => {
+  if (number < 10) {
+    return [0, 2, 4, 6, 8, 10];
+  }
+
   const nZero = number.toString().length - 1;
   let nNumber = "1";
 

@@ -1,11 +1,21 @@
 import THEME from "../../theme";
 
 const styles = {
+  container: {
+    width: "100%",
+    display: "flex",
+    overflowX: "scroll"
+  },
+  gap: { flex: "none", width: 20, height: 1 },
   box: ({ width, height }) => ({
+    position: "relative",
+    flex: "none",
     ...THEME.box,
-    margin: "0px auto",
-    width: width - 40
+    width: width - 40,
+    marginRight: THEME.spacing(0.5),
+    marginBottom: THEME.spacing(0.5)
   }),
+  lastChildBox: { marginRight: 0 },
   contents: {
     padding: 16,
     paddingTop: 14,
@@ -21,7 +31,7 @@ const styles = {
   },
   contentText: {
     fontSize: 24,
-    lineHeight: "19px"
+    lineHeight: "22px"
   },
   dateYear: {
     fontSize: 16

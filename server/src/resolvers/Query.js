@@ -8,9 +8,11 @@ fragment studentWithConsultingStudentState on Student {
     email
     consulting {
       process
+      createdAt
     }
     studentState {
-     statusType 
+     statusType
+     createdAt 
     }
 }
 `;

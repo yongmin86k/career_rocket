@@ -1,10 +1,19 @@
 import React from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
+import { useQuery } from "@apollo/react-hooks";
+import { CLIENTS_QUERY } from "../../apollo/queries";
 import { OverviewStatus } from "../../components";
+import { clientStatusDataFormat } from "../../lib/overviewDataHelper";
 import styles from "./styles";
 
 const Overview = ({ location }) => {
+  const {
+    data: clientData,
+    loading: clientLoading,
+    error: clientError
+  } = useQuery(CLIENTS_QUERY);
+
   const pathName = [
     {
       path: "/main/status",
@@ -53,7 +62,11 @@ const Overview = ({ location }) => {
           : pathName.filter(item => item.path === location.pathname)[0].name}
       </h1>
 
-      <OverviewStatus />
+      <OverviewStatus
+        loading={clientLoading}
+        error={clientError}
+        data={clientData && clientStatusDataFormat(clientData)}
+      />
     </div>
   );
 };
