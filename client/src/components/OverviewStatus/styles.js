@@ -121,7 +121,7 @@ const styles = {
   indexContent: {
     display: "flex",
     alignItems: "center",
-    width: 128,
+    width: "48%",
     marginRight: THEME.spacing(0.5),
     fontWeight: THEME.typography.weight.medium,
     color: THEME.colors.grey

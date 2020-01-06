@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import moment from "moment";
 import { useWindowDimensions } from "../../hooks";
 import {
@@ -11,12 +11,18 @@ import PropTypes from "prop-types";
 const OverviewStatus = ({ loading, error, data }) => {
   const dimension = useWindowDimensions();
 
+  const scrollContainerRef = useCallback(node => {
+    if (node !== null) {
+      node.scrollLeft = (dimension.width - 32) * 3;
+    }
+  }, []);
+
   if (loading) return <div>loading</div>;
   if (error) return <div>error</div>;
 
   if (data) {
     return (
-      <section style={styles.container}>
+      <section style={styles.container} ref={scrollContainerRef}>
         <div style={styles.gap} />
 
         {Object.keys(data).map((childData, index) => {

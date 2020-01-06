@@ -4,7 +4,8 @@ const styles = {
   page: {
     backgroundColor: THEME.colors.solitudeBlue,
     minWidth: "100vw",
-    minHeight: "100vh"
+    minHeight: "100vh",
+    paddingBottom: 84
   },
   segmentController: {
     display: "flex",
