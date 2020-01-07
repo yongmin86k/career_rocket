@@ -3,8 +3,11 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { CLIENTS_QUERY } from "../../apollo/queries";
-import { OverviewStatus } from "../../components";
-import { clientStatusDataFormat } from "../../lib/overviewDataHelper";
+import { OverviewStatus, OverviewProcess } from "../../components";
+import {
+  clientStatusDataFormat,
+  clientProcessDataFormat
+} from "../../lib/overviewDataHelper";
 import styles from "./styles";
 
 const Overview = ({ location }) => {
@@ -62,11 +65,24 @@ const Overview = ({ location }) => {
           : pathName.filter(item => item.path === location.pathname)[0].name}
       </h1>
 
-      <OverviewStatus
-        loading={clientLoading}
-        error={clientError}
-        data={clientData && clientStatusDataFormat(clientData)}
-      />
+      {location.pathname === "/main" ||
+      pathName[0].path === location.pathname ? (
+        <OverviewStatus
+          loading={clientLoading}
+          error={clientError}
+          data={clientData && clientStatusDataFormat(clientData)}
+        />
+      ) : pathName[1].path === location.pathname ? (
+        <OverviewProcess
+          loading={clientLoading}
+          error={clientError}
+          data={clientData && clientProcessDataFormat(clientData)}
+        />
+      ) : pathName[2].path === location.pathname ? (
+        <div>3</div>
+      ) : (
+        <div>unknown</div>
+      )}
     </div>
   );
 };

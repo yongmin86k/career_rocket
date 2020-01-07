@@ -39,3 +39,17 @@ export const clientStatusDataFormat = data => {
 
   return results;
 };
+
+export const clientProcessDataFormat = data => {
+  const consultingProcess = data.students.map(
+    info =>
+      info.consulting.sort((a, b) => {
+        const dateA = moment(a.createdAt);
+        const dateB = moment(b.createdAt);
+
+        return dateB - dateA;
+      })[0]
+  );
+
+  return consultingProcess;
+};

@@ -13,7 +13,7 @@ const OverviewStatus = ({ loading, error, data }) => {
 
   const scrollContainerRef = useCallback(node => {
     if (node !== null) {
-      node.scrollLeft = (dimension.width - 32) * 3;
+      node.scrollLeft = (window.screen.width - 32) * 3;
     }
   }, []);
 
@@ -115,7 +115,7 @@ const OverviewStatus = ({ loading, error, data }) => {
                     <div
                       key={`indices_${index}`}
                       style={
-                        index === Object.keys.length - 1
+                        index === 0
                           ? { ...styles.indexItem, ...styles.indexLastItem }
                           : { ...styles.indexItem }
                       }

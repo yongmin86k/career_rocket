@@ -13,6 +13,8 @@ const styles = {
       yellow: "rgba(255, 201, 71, 1)",
       grey: "rgba(214, 214, 214, 1)",
       lightBlue: "rgba(136, 173, 240, 1)",
+      columbiaBlue: "rgba(159, 224, 255, 1)",
+      echoBlue: "rgba(161, 173, 209, 1)",
       mainBlue: "rgba(80, 117, 221, 1)"
     }
   },
