@@ -10,7 +10,6 @@ const styles = {
   }),
   pieWrapper: {
     position: "relative",
-
     paddingTop: 8,
     paddingLeft: 62,
     paddingRight: 62

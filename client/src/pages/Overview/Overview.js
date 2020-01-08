@@ -3,7 +3,11 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { CLIENTS_QUERY, TRAININGS_QUERY } from "../../apollo/queries";
-import { OverviewStatus, OverviewProcess } from "../../components";
+import {
+  OverviewStatus,
+  OverviewProcess,
+  OverviewTraining
+} from "../../components";
 import {
   clientStatusDataFormat,
   clientProcessDataFormat
@@ -22,8 +26,6 @@ const Overview = ({ location }) => {
     loading: trainingLoading,
     error: trainingError
   } = useQuery(TRAININGS_QUERY);
-
-  console.log(trainingData);
 
   const pathName = [
     {
@@ -87,7 +89,11 @@ const Overview = ({ location }) => {
           data={clientData && clientProcessDataFormat(clientData)}
         />
       ) : pathName[2].path === location.pathname ? (
-        <div>JOB TRANING COURSES</div>
+        <OverviewTraining
+          loading={trainingLoading}
+          error={trainingError}
+          data={trainingData && trainingData.trainings}
+        />
       ) : (
         <div>Page is not found.</div>
       )}

@@ -8,5 +8,6 @@ export { default as GraphDoughnut } from "./GraphDoughnut";
 export { default as InputText } from "./InputText";
 export { default as OverviewStatus } from "./OverviewStatus";
 export { default as OverviewProcess } from "./OverviewProcess";
+export { default as OverviewTraining } from "./OverviewTraining";
 export { default as PopupError } from "./PopupError";
 export { default as PrivateRoute } from "./PrivateRoute";

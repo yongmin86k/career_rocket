@@ -9,6 +9,7 @@ const styles = {
     black: "rgba(53, 53, 53, 1)",
     grey: "rgba(137, 139, 141, 1)",
     lightGrey: "rgba(214, 214, 214, 1)",
+    bgGrey: "rgba(245, 245, 245, 1)",
     legends: {
       yellow: "rgba(255, 201, 71, 1)",
       grey: "rgba(214, 214, 214, 1)",
