@@ -16,6 +16,18 @@ type Student {
   email: String!
   consulting: [Consulting!]! @relation(link: INLINE)
   studentState: [StudentState!]! @relation(link: INLINE)
+  trainingInfo: [StudentsTraningRelation] @relation(link: INLINE)
+}
+
+type Training {
+  id: ID! @id
+  title: String!
+  dateStart: DateTime!
+  dateEnd: DateTime!
+  maxStudents: Int! @default(value: 20)
+  studentsInfo: [StudentsTraningRelation] @relation(link: INLINE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Consulting {
@@ -30,6 +42,13 @@ type StudentState {
   student: Student! 
   statusType: StatusType! @default(value: IN_PROGRESS)
   createdAt: DateTime! @createdAt
+}
+
+type StudentsTraningRelation {
+  id: ID! @id
+  student: Student!
+  trainingCourse: Training!
+  statusType: TrainingType!
 }
 
 enum GenderType {
@@ -51,4 +70,10 @@ enum StatusType {
   WITHDRAW
   IN_PROGRESS
   HIRED
+}
+
+enum TrainingType {
+  PASS
+  FAIL
+  UNSET
 }

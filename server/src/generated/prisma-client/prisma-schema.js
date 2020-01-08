@@ -15,6 +15,14 @@ type AggregateStudentState {
   count: Int!
 }
 
+type AggregateStudentsTraningRelation {
+  count: Int!
+}
+
+type AggregateTraining {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -233,6 +241,18 @@ type Mutation {
   upsertStudentState(where: StudentStateWhereUniqueInput!, create: StudentStateCreateInput!, update: StudentStateUpdateInput!): StudentState!
   deleteStudentState(where: StudentStateWhereUniqueInput!): StudentState
   deleteManyStudentStates(where: StudentStateWhereInput): BatchPayload!
+  createStudentsTraningRelation(data: StudentsTraningRelationCreateInput!): StudentsTraningRelation!
+  updateStudentsTraningRelation(data: StudentsTraningRelationUpdateInput!, where: StudentsTraningRelationWhereUniqueInput!): StudentsTraningRelation
+  updateManyStudentsTraningRelations(data: StudentsTraningRelationUpdateManyMutationInput!, where: StudentsTraningRelationWhereInput): BatchPayload!
+  upsertStudentsTraningRelation(where: StudentsTraningRelationWhereUniqueInput!, create: StudentsTraningRelationCreateInput!, update: StudentsTraningRelationUpdateInput!): StudentsTraningRelation!
+  deleteStudentsTraningRelation(where: StudentsTraningRelationWhereUniqueInput!): StudentsTraningRelation
+  deleteManyStudentsTraningRelations(where: StudentsTraningRelationWhereInput): BatchPayload!
+  createTraining(data: TrainingCreateInput!): Training!
+  updateTraining(data: TrainingUpdateInput!, where: TrainingWhereUniqueInput!): Training
+  updateManyTrainings(data: TrainingUpdateManyMutationInput!, where: TrainingWhereInput): BatchPayload!
+  upsertTraining(where: TrainingWhereUniqueInput!, create: TrainingCreateInput!, update: TrainingUpdateInput!): Training!
+  deleteTraining(where: TrainingWhereUniqueInput!): Training
+  deleteManyTrainings(where: TrainingWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -276,6 +296,12 @@ type Query {
   studentState(where: StudentStateWhereUniqueInput!): StudentState
   studentStates(where: StudentStateWhereInput, orderBy: StudentStateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [StudentState]!
   studentStatesConnection(where: StudentStateWhereInput, orderBy: StudentStateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StudentStateConnection!
+  studentsTraningRelation(where: StudentsTraningRelationWhereUniqueInput!): StudentsTraningRelation
+  studentsTraningRelations(where: StudentsTraningRelationWhereInput, orderBy: StudentsTraningRelationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [StudentsTraningRelation]!
+  studentsTraningRelationsConnection(where: StudentsTraningRelationWhereInput, orderBy: StudentsTraningRelationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StudentsTraningRelationConnection!
+  training(where: TrainingWhereUniqueInput!): Training
+  trainings(where: TrainingWhereInput, orderBy: TrainingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Training]!
+  trainingsConnection(where: TrainingWhereInput, orderBy: TrainingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TrainingConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -298,6 +324,7 @@ type Student {
   email: String!
   consulting(where: ConsultingWhereInput, orderBy: ConsultingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Consulting!]
   studentState(where: StudentStateWhereInput, orderBy: StudentStateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [StudentState!]
+  trainingInfo(where: StudentsTraningRelationWhereInput, orderBy: StudentsTraningRelationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [StudentsTraningRelation!]
 }
 
 type StudentConnection {
@@ -315,6 +342,7 @@ input StudentCreateInput {
   email: String!
   consulting: ConsultingCreateManyWithoutStudentInput
   studentState: StudentStateCreateManyWithoutStudentInput
+  trainingInfo: StudentsTraningRelationCreateManyWithoutStudentInput
 }
 
 input StudentCreateOneWithoutConsultingInput {
@@ -327,6 +355,11 @@ input StudentCreateOneWithoutStudentStateInput {
   connect: StudentWhereUniqueInput
 }
 
+input StudentCreateOneWithoutTrainingInfoInput {
+  create: StudentCreateWithoutTrainingInfoInput
+  connect: StudentWhereUniqueInput
+}
+
 input StudentCreateWithoutConsultingInput {
   id: ID
   profileImg: String
@@ -335,6 +368,7 @@ input StudentCreateWithoutConsultingInput {
   birthDate: DateTime!
   email: String!
   studentState: StudentStateCreateManyWithoutStudentInput
+  trainingInfo: StudentsTraningRelationCreateManyWithoutStudentInput
 }
 
 input StudentCreateWithoutStudentStateInput {
@@ -345,6 +379,18 @@ input StudentCreateWithoutStudentStateInput {
   birthDate: DateTime!
   email: String!
   consulting: ConsultingCreateManyWithoutStudentInput
+  trainingInfo: StudentsTraningRelationCreateManyWithoutStudentInput
+}
+
+input StudentCreateWithoutTrainingInfoInput {
+  id: ID
+  profileImg: String
+  name: String!
+  gender: GenderType!
+  birthDate: DateTime!
+  email: String!
+  consulting: ConsultingCreateManyWithoutStudentInput
+  studentState: StudentStateCreateManyWithoutStudentInput
 }
 
 type StudentEdge {
@@ -557,6 +603,212 @@ input StudentStateWhereUniqueInput {
   id: ID
 }
 
+type StudentsTraningRelation {
+  id: ID!
+  student: Student!
+  trainingCourse: Training!
+  statusType: TrainingType!
+}
+
+type StudentsTraningRelationConnection {
+  pageInfo: PageInfo!
+  edges: [StudentsTraningRelationEdge]!
+  aggregate: AggregateStudentsTraningRelation!
+}
+
+input StudentsTraningRelationCreateInput {
+  id: ID
+  student: StudentCreateOneWithoutTrainingInfoInput!
+  trainingCourse: TrainingCreateOneWithoutStudentsInfoInput!
+  statusType: TrainingType!
+}
+
+input StudentsTraningRelationCreateManyWithoutStudentInput {
+  create: [StudentsTraningRelationCreateWithoutStudentInput!]
+  connect: [StudentsTraningRelationWhereUniqueInput!]
+}
+
+input StudentsTraningRelationCreateManyWithoutTrainingCourseInput {
+  create: [StudentsTraningRelationCreateWithoutTrainingCourseInput!]
+  connect: [StudentsTraningRelationWhereUniqueInput!]
+}
+
+input StudentsTraningRelationCreateWithoutStudentInput {
+  id: ID
+  trainingCourse: TrainingCreateOneWithoutStudentsInfoInput!
+  statusType: TrainingType!
+}
+
+input StudentsTraningRelationCreateWithoutTrainingCourseInput {
+  id: ID
+  student: StudentCreateOneWithoutTrainingInfoInput!
+  statusType: TrainingType!
+}
+
+type StudentsTraningRelationEdge {
+  node: StudentsTraningRelation!
+  cursor: String!
+}
+
+enum StudentsTraningRelationOrderByInput {
+  id_ASC
+  id_DESC
+  statusType_ASC
+  statusType_DESC
+}
+
+type StudentsTraningRelationPreviousValues {
+  id: ID!
+  statusType: TrainingType!
+}
+
+input StudentsTraningRelationScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  statusType: TrainingType
+  statusType_not: TrainingType
+  statusType_in: [TrainingType!]
+  statusType_not_in: [TrainingType!]
+  AND: [StudentsTraningRelationScalarWhereInput!]
+  OR: [StudentsTraningRelationScalarWhereInput!]
+  NOT: [StudentsTraningRelationScalarWhereInput!]
+}
+
+type StudentsTraningRelationSubscriptionPayload {
+  mutation: MutationType!
+  node: StudentsTraningRelation
+  updatedFields: [String!]
+  previousValues: StudentsTraningRelationPreviousValues
+}
+
+input StudentsTraningRelationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: StudentsTraningRelationWhereInput
+  AND: [StudentsTraningRelationSubscriptionWhereInput!]
+  OR: [StudentsTraningRelationSubscriptionWhereInput!]
+  NOT: [StudentsTraningRelationSubscriptionWhereInput!]
+}
+
+input StudentsTraningRelationUpdateInput {
+  student: StudentUpdateOneRequiredWithoutTrainingInfoInput
+  trainingCourse: TrainingUpdateOneRequiredWithoutStudentsInfoInput
+  statusType: TrainingType
+}
+
+input StudentsTraningRelationUpdateManyDataInput {
+  statusType: TrainingType
+}
+
+input StudentsTraningRelationUpdateManyMutationInput {
+  statusType: TrainingType
+}
+
+input StudentsTraningRelationUpdateManyWithoutStudentInput {
+  create: [StudentsTraningRelationCreateWithoutStudentInput!]
+  delete: [StudentsTraningRelationWhereUniqueInput!]
+  connect: [StudentsTraningRelationWhereUniqueInput!]
+  set: [StudentsTraningRelationWhereUniqueInput!]
+  disconnect: [StudentsTraningRelationWhereUniqueInput!]
+  update: [StudentsTraningRelationUpdateWithWhereUniqueWithoutStudentInput!]
+  upsert: [StudentsTraningRelationUpsertWithWhereUniqueWithoutStudentInput!]
+  deleteMany: [StudentsTraningRelationScalarWhereInput!]
+  updateMany: [StudentsTraningRelationUpdateManyWithWhereNestedInput!]
+}
+
+input StudentsTraningRelationUpdateManyWithoutTrainingCourseInput {
+  create: [StudentsTraningRelationCreateWithoutTrainingCourseInput!]
+  delete: [StudentsTraningRelationWhereUniqueInput!]
+  connect: [StudentsTraningRelationWhereUniqueInput!]
+  set: [StudentsTraningRelationWhereUniqueInput!]
+  disconnect: [StudentsTraningRelationWhereUniqueInput!]
+  update: [StudentsTraningRelationUpdateWithWhereUniqueWithoutTrainingCourseInput!]
+  upsert: [StudentsTraningRelationUpsertWithWhereUniqueWithoutTrainingCourseInput!]
+  deleteMany: [StudentsTraningRelationScalarWhereInput!]
+  updateMany: [StudentsTraningRelationUpdateManyWithWhereNestedInput!]
+}
+
+input StudentsTraningRelationUpdateManyWithWhereNestedInput {
+  where: StudentsTraningRelationScalarWhereInput!
+  data: StudentsTraningRelationUpdateManyDataInput!
+}
+
+input StudentsTraningRelationUpdateWithoutStudentDataInput {
+  trainingCourse: TrainingUpdateOneRequiredWithoutStudentsInfoInput
+  statusType: TrainingType
+}
+
+input StudentsTraningRelationUpdateWithoutTrainingCourseDataInput {
+  student: StudentUpdateOneRequiredWithoutTrainingInfoInput
+  statusType: TrainingType
+}
+
+input StudentsTraningRelationUpdateWithWhereUniqueWithoutStudentInput {
+  where: StudentsTraningRelationWhereUniqueInput!
+  data: StudentsTraningRelationUpdateWithoutStudentDataInput!
+}
+
+input StudentsTraningRelationUpdateWithWhereUniqueWithoutTrainingCourseInput {
+  where: StudentsTraningRelationWhereUniqueInput!
+  data: StudentsTraningRelationUpdateWithoutTrainingCourseDataInput!
+}
+
+input StudentsTraningRelationUpsertWithWhereUniqueWithoutStudentInput {
+  where: StudentsTraningRelationWhereUniqueInput!
+  update: StudentsTraningRelationUpdateWithoutStudentDataInput!
+  create: StudentsTraningRelationCreateWithoutStudentInput!
+}
+
+input StudentsTraningRelationUpsertWithWhereUniqueWithoutTrainingCourseInput {
+  where: StudentsTraningRelationWhereUniqueInput!
+  update: StudentsTraningRelationUpdateWithoutTrainingCourseDataInput!
+  create: StudentsTraningRelationCreateWithoutTrainingCourseInput!
+}
+
+input StudentsTraningRelationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  student: StudentWhereInput
+  trainingCourse: TrainingWhereInput
+  statusType: TrainingType
+  statusType_not: TrainingType
+  statusType_in: [TrainingType!]
+  statusType_not_in: [TrainingType!]
+  AND: [StudentsTraningRelationWhereInput!]
+  OR: [StudentsTraningRelationWhereInput!]
+  NOT: [StudentsTraningRelationWhereInput!]
+}
+
+input StudentsTraningRelationWhereUniqueInput {
+  id: ID
+}
+
 type StudentSubscriptionPayload {
   mutation: MutationType!
   node: Student
@@ -583,6 +835,7 @@ input StudentUpdateInput {
   email: String
   consulting: ConsultingUpdateManyWithoutStudentInput
   studentState: StudentStateUpdateManyWithoutStudentInput
+  trainingInfo: StudentsTraningRelationUpdateManyWithoutStudentInput
 }
 
 input StudentUpdateManyMutationInput {
@@ -607,6 +860,13 @@ input StudentUpdateOneRequiredWithoutStudentStateInput {
   connect: StudentWhereUniqueInput
 }
 
+input StudentUpdateOneRequiredWithoutTrainingInfoInput {
+  create: StudentCreateWithoutTrainingInfoInput
+  update: StudentUpdateWithoutTrainingInfoDataInput
+  upsert: StudentUpsertWithoutTrainingInfoInput
+  connect: StudentWhereUniqueInput
+}
+
 input StudentUpdateWithoutConsultingDataInput {
   profileImg: String
   name: String
@@ -614,6 +874,7 @@ input StudentUpdateWithoutConsultingDataInput {
   birthDate: DateTime
   email: String
   studentState: StudentStateUpdateManyWithoutStudentInput
+  trainingInfo: StudentsTraningRelationUpdateManyWithoutStudentInput
 }
 
 input StudentUpdateWithoutStudentStateDataInput {
@@ -623,6 +884,17 @@ input StudentUpdateWithoutStudentStateDataInput {
   birthDate: DateTime
   email: String
   consulting: ConsultingUpdateManyWithoutStudentInput
+  trainingInfo: StudentsTraningRelationUpdateManyWithoutStudentInput
+}
+
+input StudentUpdateWithoutTrainingInfoDataInput {
+  profileImg: String
+  name: String
+  gender: GenderType
+  birthDate: DateTime
+  email: String
+  consulting: ConsultingUpdateManyWithoutStudentInput
+  studentState: StudentStateUpdateManyWithoutStudentInput
 }
 
 input StudentUpsertWithoutConsultingInput {
@@ -633,6 +905,11 @@ input StudentUpsertWithoutConsultingInput {
 input StudentUpsertWithoutStudentStateInput {
   update: StudentUpdateWithoutStudentStateDataInput!
   create: StudentCreateWithoutStudentStateInput!
+}
+
+input StudentUpsertWithoutTrainingInfoInput {
+  update: StudentUpdateWithoutTrainingInfoDataInput!
+  create: StudentCreateWithoutTrainingInfoInput!
 }
 
 input StudentWhereInput {
@@ -710,6 +987,9 @@ input StudentWhereInput {
   studentState_every: StudentStateWhereInput
   studentState_some: StudentStateWhereInput
   studentState_none: StudentStateWhereInput
+  trainingInfo_every: StudentsTraningRelationWhereInput
+  trainingInfo_some: StudentsTraningRelationWhereInput
+  trainingInfo_none: StudentsTraningRelationWhereInput
   AND: [StudentWhereInput!]
   OR: [StudentWhereInput!]
   NOT: [StudentWhereInput!]
@@ -723,7 +1003,219 @@ type Subscription {
   consulting(where: ConsultingSubscriptionWhereInput): ConsultingSubscriptionPayload
   student(where: StudentSubscriptionWhereInput): StudentSubscriptionPayload
   studentState(where: StudentStateSubscriptionWhereInput): StudentStateSubscriptionPayload
+  studentsTraningRelation(where: StudentsTraningRelationSubscriptionWhereInput): StudentsTraningRelationSubscriptionPayload
+  training(where: TrainingSubscriptionWhereInput): TrainingSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type Training {
+  id: ID!
+  title: String!
+  dateStart: DateTime!
+  dateEnd: DateTime!
+  maxStudents: Int!
+  studentsInfo(where: StudentsTraningRelationWhereInput, orderBy: StudentsTraningRelationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [StudentsTraningRelation!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type TrainingConnection {
+  pageInfo: PageInfo!
+  edges: [TrainingEdge]!
+  aggregate: AggregateTraining!
+}
+
+input TrainingCreateInput {
+  id: ID
+  title: String!
+  dateStart: DateTime!
+  dateEnd: DateTime!
+  maxStudents: Int
+  studentsInfo: StudentsTraningRelationCreateManyWithoutTrainingCourseInput
+}
+
+input TrainingCreateOneWithoutStudentsInfoInput {
+  create: TrainingCreateWithoutStudentsInfoInput
+  connect: TrainingWhereUniqueInput
+}
+
+input TrainingCreateWithoutStudentsInfoInput {
+  id: ID
+  title: String!
+  dateStart: DateTime!
+  dateEnd: DateTime!
+  maxStudents: Int
+}
+
+type TrainingEdge {
+  node: Training!
+  cursor: String!
+}
+
+enum TrainingOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+  dateStart_ASC
+  dateStart_DESC
+  dateEnd_ASC
+  dateEnd_DESC
+  maxStudents_ASC
+  maxStudents_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type TrainingPreviousValues {
+  id: ID!
+  title: String!
+  dateStart: DateTime!
+  dateEnd: DateTime!
+  maxStudents: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type TrainingSubscriptionPayload {
+  mutation: MutationType!
+  node: Training
+  updatedFields: [String!]
+  previousValues: TrainingPreviousValues
+}
+
+input TrainingSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: TrainingWhereInput
+  AND: [TrainingSubscriptionWhereInput!]
+  OR: [TrainingSubscriptionWhereInput!]
+  NOT: [TrainingSubscriptionWhereInput!]
+}
+
+enum TrainingType {
+  PASS
+  FAIL
+  UNSET
+}
+
+input TrainingUpdateInput {
+  title: String
+  dateStart: DateTime
+  dateEnd: DateTime
+  maxStudents: Int
+  studentsInfo: StudentsTraningRelationUpdateManyWithoutTrainingCourseInput
+}
+
+input TrainingUpdateManyMutationInput {
+  title: String
+  dateStart: DateTime
+  dateEnd: DateTime
+  maxStudents: Int
+}
+
+input TrainingUpdateOneRequiredWithoutStudentsInfoInput {
+  create: TrainingCreateWithoutStudentsInfoInput
+  update: TrainingUpdateWithoutStudentsInfoDataInput
+  upsert: TrainingUpsertWithoutStudentsInfoInput
+  connect: TrainingWhereUniqueInput
+}
+
+input TrainingUpdateWithoutStudentsInfoDataInput {
+  title: String
+  dateStart: DateTime
+  dateEnd: DateTime
+  maxStudents: Int
+}
+
+input TrainingUpsertWithoutStudentsInfoInput {
+  update: TrainingUpdateWithoutStudentsInfoDataInput!
+  create: TrainingCreateWithoutStudentsInfoInput!
+}
+
+input TrainingWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  dateStart: DateTime
+  dateStart_not: DateTime
+  dateStart_in: [DateTime!]
+  dateStart_not_in: [DateTime!]
+  dateStart_lt: DateTime
+  dateStart_lte: DateTime
+  dateStart_gt: DateTime
+  dateStart_gte: DateTime
+  dateEnd: DateTime
+  dateEnd_not: DateTime
+  dateEnd_in: [DateTime!]
+  dateEnd_not_in: [DateTime!]
+  dateEnd_lt: DateTime
+  dateEnd_lte: DateTime
+  dateEnd_gt: DateTime
+  dateEnd_gte: DateTime
+  maxStudents: Int
+  maxStudents_not: Int
+  maxStudents_in: [Int!]
+  maxStudents_not_in: [Int!]
+  maxStudents_lt: Int
+  maxStudents_lte: Int
+  maxStudents_gt: Int
+  maxStudents_gte: Int
+  studentsInfo_every: StudentsTraningRelationWhereInput
+  studentsInfo_some: StudentsTraningRelationWhereInput
+  studentsInfo_none: StudentsTraningRelationWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [TrainingWhereInput!]
+  OR: [TrainingWhereInput!]
+  NOT: [TrainingWhereInput!]
+}
+
+input TrainingWhereUniqueInput {
+  id: ID
 }
 
 type User {

@@ -13,11 +13,19 @@ var models = [
     embedded: false
   },
   {
+    name: "Training",
+    embedded: false
+  },
+  {
     name: "Consulting",
     embedded: false
   },
   {
     name: "StudentState",
+    embedded: false
+  },
+  {
+    name: "StudentsTraningRelation",
     embedded: false
   },
   {
@@ -30,6 +38,10 @@ var models = [
   },
   {
     name: "StatusType",
+    embedded: false
+  },
+  {
+    name: "TrainingType",
     embedded: false
   }
 ];
