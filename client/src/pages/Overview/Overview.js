@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
-import { CLIENTS_QUERY } from "../../apollo/queries";
+import { CLIENTS_QUERY, TRAININGS_QUERY } from "../../apollo/queries";
 import { OverviewStatus, OverviewProcess } from "../../components";
 import {
   clientStatusDataFormat,
@@ -16,6 +16,14 @@ const Overview = ({ location }) => {
     loading: clientLoading,
     error: clientError
   } = useQuery(CLIENTS_QUERY);
+
+  const {
+    data: trainingData,
+    loading: trainingLoading,
+    error: trainingError
+  } = useQuery(TRAININGS_QUERY);
+
+  console.log(trainingData);
 
   const pathName = [
     {
@@ -79,9 +87,9 @@ const Overview = ({ location }) => {
           data={clientData && clientProcessDataFormat(clientData)}
         />
       ) : pathName[2].path === location.pathname ? (
-        <div>3</div>
+        <div>JOB TRANING COURSES</div>
       ) : (
-        <div>unknown</div>
+        <div>Page is not found.</div>
       )}
     </div>
   );

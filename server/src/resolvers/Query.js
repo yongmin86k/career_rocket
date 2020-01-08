@@ -1,20 +1,61 @@
 const fragmentStudents = `
-fragment studentWithConsultingStudentState on Student {
+fragment studentInfo on Student {
   id
-    profileImg
-    name
-    gender
-    birthDate
-    email
-    consulting {
-      process
+  profileImg
+  name
+  gender
+  birthDate
+  email
+  consulting {
+    process
+    createdAt
+  }
+  studentState {
+    statusType
+    createdAt 
+  }
+  trainingInfo {
+    trainingCourse {
+      id
+      title
+      dateStart
+      dateEnd
+      maxStudents
       createdAt
     }
-    studentState {
-     statusType
-     createdAt 
-    }
+    statusType
+  }
 }
+`;
+
+const fragmentTrainings = `
+  fragment trainingInfo on Training {
+    id
+    title
+    dateStart
+    dateEnd
+    maxStudents
+    createdAt
+    studentsInfo {
+      student {
+        id
+        profileImg
+        name
+        gender
+        birthDate
+        email
+        consulting {
+          process
+          createdAt
+        }
+        studentState {
+          statusType
+          createdAt
+        }
+      }
+      statusType
+    }
+  }
 `;
 
 function users(root, args, context, info) {
@@ -25,4 +66,8 @@ function students(root, args, context, info) {
   return context.prisma.students().$fragment(fragmentStudents);
 }
 
-module.exports = { users, students };
+function trainings(root, args, context, info) {
+  return context.prisma.trainings().$fragment(fragmentTrainings);
+}
+
+module.exports = { users, students, trainings };

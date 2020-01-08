@@ -14,6 +14,18 @@ type Student {
   email: String!
   consulting: [Consulting]!
   studentState: [StudentState]!
+  trainingInfo: [StudentsTraningRelation]
+}
+
+type Training {
+  id: ID!
+  title: String!
+  dateStart: String!
+  dateEnd: String!
+  maxStudents: Int!
+  studentsInfo: [StudentsTraningRelation]
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Consulting {
@@ -35,9 +47,17 @@ type AuthPayload {
   user: User
 }
 
+type StudentsTraningRelation {
+  id: ID
+  student: Student!
+  trainingCourse: Training!
+  statusType: String!
+}
+
 type Query {
   users: [User]!
   students: [Student]!
+  trainings: [Training]!
 }
 
 type Mutation {
