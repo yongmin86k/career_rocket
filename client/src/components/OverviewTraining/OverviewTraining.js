@@ -11,7 +11,6 @@ const OverviewTraining = ({ loading, error, data }) => {
   if (error) return <div>error</div>;
   if (data)
     return data.map((item, index) => {
-      // console.log(item);
       const trainingStatus = moment().isBefore(item.dateStart, "day")
         ? "Prearranged"
         : moment().isAfter(item.dateEnd, "day")

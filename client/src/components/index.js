@@ -11,3 +11,5 @@ export { default as OverviewProcess } from "./OverviewProcess";
 export { default as OverviewTraining } from "./OverviewTraining";
 export { default as PopupError } from "./PopupError";
 export { default as PrivateRoute } from "./PrivateRoute";
+export { default as SideBar } from "./SideBar";
+export { default as SideBarIcon } from "./SideBarIcon";

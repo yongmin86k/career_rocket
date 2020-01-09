@@ -1,12 +1,14 @@
 import THEME from "../../theme";
 
 const styles = {
-  page: {
+  page: isMedia => ({
     backgroundColor: THEME.colors.solitudeBlue,
     minWidth: "100vw",
     minHeight: "100vh",
-    paddingBottom: 84
-  },
+    paddingTop: isMedia === "mobile" ? "unset" : 76,
+    paddingLeft: isMedia === "mobile" ? "unset" : 80,
+    paddingBottom: isMedia === "mobile" ? 84 : "unset"
+  }),
   segmentController: {
     display: "flex",
     paddingTop: 22,

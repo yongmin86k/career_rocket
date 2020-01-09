@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import styles from "./styles";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
 
 const BottomTabIcon = ({ label, image, link }) => {
   const [isActive, setActive] = useState(false);
