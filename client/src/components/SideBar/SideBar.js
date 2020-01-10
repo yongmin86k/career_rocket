@@ -46,7 +46,7 @@ const SideBar = () => {
 
       <div style={styles.topContainer}>
         <div style={styles.menuContainer}>
-          <img src="/images/ic-menu.svg" alt="menu" />
+          <img src="/images/ic-hamburger-menu.svg" alt="menu" />
         </div>
 
         <header style={styles.titleContainer}>

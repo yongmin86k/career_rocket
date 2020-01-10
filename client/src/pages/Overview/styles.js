@@ -5,8 +5,9 @@ const styles = {
     backgroundColor: THEME.colors.solitudeBlue,
     minWidth: "100vw",
     minHeight: "100vh",
-    paddingTop: isMedia === "mobile" ? "unset" : 76,
-    paddingLeft: isMedia === "mobile" ? "unset" : 80,
+    paddingTop: isMedia === "mobile" ? "unset" : THEME.spacing(7.875),
+    paddingLeft: isMedia === "mobile" ? "unset" : THEME.spacing(8.5),
+    paddingRight: isMedia === "mobile" ? "unset" : THEME.spacing(3.5),
     paddingBottom: isMedia === "mobile" ? 84 : "unset"
   }),
   segmentController: {
@@ -60,6 +61,22 @@ const styles = {
     fontWeight: THEME.typography.weight.bold,
     textTransform: "uppercase",
     marginBottom: THEME.spacing(0.625)
+  },
+  desktopContainer: {
+    display: "flex"
+  },
+  leftWrap: {
+    flex: 1,
+    marginRight: THEME.spacing(2)
+  },
+  rightWrap: {
+    width: 302
+  },
+  contentTitle: {
+    marginBottom: THEME.spacing(0.5),
+    fontSize: 20,
+    fontWeight: THEME.typography.weight.bold,
+    textTransform: "uppercase"
   }
 };
 
