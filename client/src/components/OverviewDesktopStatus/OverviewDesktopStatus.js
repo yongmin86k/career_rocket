@@ -16,7 +16,7 @@ const OverviewDesktopStatus = ({ loading, error, data }) => {
     let chartLegend,
       chartData = [];
 
-    Object.keys(data).map((childData, index) => {
+    Object.keys(data).forEach((childData, index) => {
       const TYPES = {
         LAYOFF: 0,
         WITHDRAW: 0,

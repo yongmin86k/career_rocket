@@ -40,6 +40,7 @@ const styles = {
     border: `solid 1px ${THEME.colors.lightGrey}`,
     borderRadius: 2,
     backgroundColor: "white",
+    whiteSpace: "nowrap",
     zIndex: 1
   },
   infoHover: {

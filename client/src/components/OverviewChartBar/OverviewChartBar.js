@@ -24,7 +24,14 @@ const BarElement = ({ type, data, totalNumber }) => {
               : { ...styles.info }
           }
         >
-          {type}:{data[type]}
+          {type === "LAYOFF"
+            ? "Layoff"
+            : type === "WITHDRAW"
+            ? "Withdraw"
+            : type === "IN_PROGRESS"
+            ? "In progress"
+            : "Hired"}{" "}
+          : {data[type]}
         </p>
       )}
     </div>
