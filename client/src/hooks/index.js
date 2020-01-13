@@ -46,3 +46,67 @@ export const useWindowDimensions = () => {
 
   return isDimension;
 };
+
+export const useRefDimensions = ref => {
+  const [isDimension, setDimension] = useState(null);
+
+  if (ref.current && !isDimension) {
+    const {
+      current: {
+        offsetWidth,
+        offsetHeight,
+        style: { paddingRight, paddingLeft, paddingTop, paddingBottom }
+      }
+    } = ref;
+
+    const pRight = isNaN(parseFloat(paddingRight))
+      ? 0
+      : parseFloat(paddingRight);
+    const pLeft = isNaN(parseFloat(paddingLeft)) ? 0 : parseFloat(paddingLeft);
+    const pTop = isNaN(parseFloat(paddingTop)) ? 0 : parseFloat(paddingTop);
+    const pBottom = isNaN(parseFloat(paddingBottom))
+      ? 0
+      : parseFloat(paddingBottom);
+
+    setDimension({
+      width: offsetWidth,
+      height: offsetHeight,
+      innerWidth: offsetWidth - pRight - pLeft,
+      innerHeight: offsetHeight - pTop - pBottom
+    });
+  }
+
+  const resizeScreen = () => {
+    const {
+      current: {
+        offsetWidth,
+        offsetHeight,
+        style: { paddingRight, paddingLeft, paddingTop, paddingBottom }
+      }
+    } = ref;
+
+    const pRight = isNaN(parseFloat(paddingRight))
+      ? 0
+      : parseFloat(paddingRight);
+    const pLeft = isNaN(parseFloat(paddingLeft)) ? 0 : parseFloat(paddingLeft);
+    const pTop = isNaN(parseFloat(paddingTop)) ? 0 : parseFloat(paddingTop);
+    const pBottom = isNaN(parseFloat(paddingBottom))
+      ? 0
+      : parseFloat(paddingBottom);
+
+    setDimension({
+      width: offsetWidth,
+      height: offsetHeight,
+      innerWidth: offsetWidth - pRight - pLeft,
+      innerHeight: offsetHeight - pTop - pBottom
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", resizeScreen);
+
+    return () => window.removeEventListener("resize", resizeScreen);
+  });
+
+  return isDimension;
+};

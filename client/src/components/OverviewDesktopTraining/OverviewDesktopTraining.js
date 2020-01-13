@@ -3,7 +3,7 @@ import { OverviewTableRow } from "../../components";
 import styles from "./styles";
 import PropTypes from "prop-types";
 
-const OverviewDesktopTraining = ({ clientData, trainingData }) => {
+const OverviewDesktopTraining = ({ loading, error, trainingData }) => {
   return (
     <div style={styles.container}>
       <div style={styles.header}>
@@ -48,6 +48,7 @@ const OverviewDesktopTraining = ({ clientData, trainingData }) => {
 export default OverviewDesktopTraining;
 
 OverviewDesktopTraining.propTypes = {
-  clientData: PropTypes.array,
+  loading: PropTypes.bool,
+  error: PropTypes.object,
   trainingData: PropTypes.array
 };

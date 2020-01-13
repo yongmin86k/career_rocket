@@ -6,6 +6,8 @@ export { default as ButtonError } from "./ButtonError";
 export { default as FullScreenLoader } from "./FullScreenLoader";
 export { default as GraphDoughnut } from "./GraphDoughnut";
 export { default as InputText } from "./InputText";
+export { default as OverviewChartBar } from "./OverviewChartBar";
+export { default as OverviewDesktopStatus } from "./OverviewDesktopStatus";
 export { default as OverviewDesktopTraining } from "./OverviewDesktopTraining";
 export { default as OverviewStatus } from "./OverviewStatus";
 export { default as OverviewTableRow } from "./OverviewTableRow";

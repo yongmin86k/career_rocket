@@ -4,8 +4,6 @@ import styles from "./styles";
 import PropTypes from "prop-types";
 
 const OverviewTableRow = ({ data, lastChild }) => {
-  console.log(data);
-
   const trainingStatus = moment().isBefore(data.dateStart, "day")
     ? "Prearranged"
     : moment().isAfter(data.dateEnd, "day")

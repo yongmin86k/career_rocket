@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { CLIENTS_QUERY, TRAININGS_QUERY } from "../../apollo/queries";
 import {
+  OverviewDesktopStatus,
   OverviewDesktopTraining,
   OverviewStatus,
   OverviewProcess,
@@ -127,13 +128,20 @@ const Overview = ({ location }) => {
             <h2 style={styles.contentTitle}>Job Training Courses</h2>
 
             <OverviewDesktopTraining
-              clientData={clientData && clientData.students}
+              loading={trainingLoading}
+              error={trainingError}
               trainingData={trainingData && trainingData.trainings}
             />
           </div>
           <div style={styles.rightWrap}>
             <div style={styles.desktopContent}>
               <h2 style={styles.contentTitle}>Clients Status</h2>
+
+              <OverviewDesktopStatus
+                loading={clientLoading}
+                error={clientError}
+                data={clientData && clientStatusDataFormat(clientData)}
+              />
             </div>
           </div>
         </div>
