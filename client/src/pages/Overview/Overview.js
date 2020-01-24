@@ -6,6 +6,7 @@ import { CLIENTS_QUERY, TRAININGS_QUERY } from "../../apollo/queries";
 import {
   OverviewDesktopStatus,
   OverviewDesktopTraining,
+  OverviewDesktopProcess,
   OverviewStatus,
   OverviewProcess,
   OverviewTraining
@@ -141,6 +142,16 @@ const Overview = ({ location }) => {
                 loading={clientLoading}
                 error={clientError}
                 data={clientData && clientStatusDataFormat(clientData)}
+              />
+            </div>
+
+            <div style={styles.desktopContent}>
+              <h2 style={styles.contentTitle}>Consulting Process</h2>
+
+              <OverviewDesktopProcess
+                loading={clientLoading}
+                error={clientError}
+                data={clientData && clientProcessDataFormat(clientData)}
               />
             </div>
           </div>

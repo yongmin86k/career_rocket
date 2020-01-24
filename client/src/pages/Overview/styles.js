@@ -8,7 +8,7 @@ const styles = {
     paddingTop: isMedia === "mobile" ? "unset" : THEME.spacing(7.875),
     paddingLeft: isMedia === "mobile" ? "unset" : THEME.spacing(8.5),
     paddingRight: isMedia === "mobile" ? "unset" : THEME.spacing(3.5),
-    paddingBottom: isMedia === "mobile" ? 84 : "unset"
+    paddingBottom: isMedia === "mobile" ? 84 : THEME.spacing(2)
   }),
   segmentController: {
     display: "flex",
@@ -71,6 +71,9 @@ const styles = {
   },
   rightWrap: {
     width: 302
+  },
+  desktopContent: {
+    marginBottom: THEME.spacing(2)
   },
   contentTitle: {
     marginBottom: THEME.spacing(0.5),
