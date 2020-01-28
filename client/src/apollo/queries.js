@@ -61,3 +61,19 @@ export const TRAININGS_QUERY = gql`
   ${StudentFields}
   ${TrainingFields}
 `;
+
+export const TRAININGS_BY_TITLE_QUERY = gql`
+  query trainingByTitle($title: String) {
+    trainingByTitle(title: $title) {
+      ...TrainingFields
+      studentsInfo {
+        student {
+          ...StudentFields
+        }
+        statusType
+      }
+    }
+  }
+  ${StudentFields}
+  ${TrainingFields}
+`;

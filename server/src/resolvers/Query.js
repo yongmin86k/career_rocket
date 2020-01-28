@@ -70,4 +70,12 @@ function trainings(root, args, context, info) {
   return context.prisma.trainings().$fragment(fragmentTrainings);
 }
 
-module.exports = { users, students, trainings };
+function trainingByTitle(root, { title }, context, info) {
+  const where = {
+    title_contains: title
+  };
+
+  return context.prisma.trainings({ where }).$fragment(fragmentTrainings);
+}
+
+module.exports = { users, students, trainings, trainingByTitle };

@@ -58,6 +58,7 @@ type Query {
   users: [User]!
   students: [Student]!
   trainings: [Training]!
+  trainingByTitle(title: String): [Training]!
 }
 
 type Mutation {

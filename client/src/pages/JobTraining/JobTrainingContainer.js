@@ -4,8 +4,21 @@ import PropTypes from "prop-types";
 
 class JobTrainingContainer extends Component {
   render() {
-    const { token, refreshTokenFn } = this.props;
-    return <JobTraining token={token} refreshTokenFn={refreshTokenFn} />;
+    const {
+      match: {
+        params: { trainingTitle }
+      },
+      token,
+      refreshTokenFn
+    } = this.props;
+
+    return (
+      <JobTraining
+        token={token}
+        refreshTokenFn={refreshTokenFn}
+        trainingTitle={trainingTitle}
+      />
+    );
   }
 }
 
