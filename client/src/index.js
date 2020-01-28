@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
 import client from "./apollo";
 import { ViewerProvider } from "./context/ViewerContext";
+import { TrainingProvider } from "./context/TrainingContext";
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./routes";
 import "./reset.css";
@@ -13,9 +14,11 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <ViewerProvider>
-        <Router>
-          <Routes />
-        </Router>
+        <TrainingProvider>
+          <Router>
+            <Routes />
+          </Router>
+        </TrainingProvider>
       </ViewerProvider>
     </ApolloProvider>
   );

@@ -18,3 +18,5 @@ export { default as PopupError } from "./PopupError";
 export { default as PrivateRoute } from "./PrivateRoute";
 export { default as SideBar } from "./SideBar";
 export { default as SideBarIcon } from "./SideBarIcon";
+export { default as TrainingAccordion } from "./TrainingAccordion";
+export { default as TrainingSelectBox } from "./TrainingSelectBox";

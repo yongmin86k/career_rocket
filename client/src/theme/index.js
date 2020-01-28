@@ -20,6 +20,15 @@ const styles = {
     }
   },
 
+  dimmer: {
+    position: "fixed",
+    width: "100vw",
+    height: "100vh",
+    top: 0,
+    left: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.72)"
+  },
+
   typography: {
     copyRight: {
       fontSize: 10

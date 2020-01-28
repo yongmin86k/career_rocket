@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./styles";
+import TrainingContext from "../../context/TrainingContext";
 import { BottomTabIcon } from "../../components";
 
 const BottomTab = () => {
+  const { toggleTrainingSelect } = useContext(TrainingContext);
+
   return (
     <div style={styles.container}>
       <BottomTabIcon link="/main" label="Overview" image="ic-overview" />
       <BottomTabIcon
-        link="/job_training"
+        onClick={() => {
+          toggleTrainingSelect();
+        }}
         label="Job Training"
         image="ic-job-train"
       />

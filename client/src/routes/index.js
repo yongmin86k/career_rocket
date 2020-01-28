@@ -26,7 +26,11 @@ const Routes = props => {
     <>
       <Switch>
         <PrivateRoute exact path="/logout" component={Logout} />
-        <PrivateRoute exact path="/job_training" component={JobTraining} />
+        <PrivateRoute
+          exact
+          path="/job_training/:trainingID"
+          component={JobTraining}
+        />
         <PrivateRoute exact path="/main/job_training" component={Overview} />
         <PrivateRoute exact path="/main/process" component={Overview} />
         <PrivateRoute exact path="/main/status" component={Overview} />
