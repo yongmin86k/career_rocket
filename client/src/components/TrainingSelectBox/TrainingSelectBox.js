@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { TRAININGS_QUERY } from "../../apollo/queries";
 import { TrainingAccordion } from "../../components";

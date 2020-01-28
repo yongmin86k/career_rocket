@@ -14,11 +14,11 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <ViewerProvider>
-        <TrainingProvider>
-          <Router>
+        <Router>
+          <TrainingProvider>
             <Routes />
-          </Router>
-        </TrainingProvider>
+          </TrainingProvider>
+        </Router>
       </ViewerProvider>
     </ApolloProvider>
   );

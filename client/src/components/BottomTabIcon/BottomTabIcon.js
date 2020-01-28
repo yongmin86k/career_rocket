@@ -1,10 +1,19 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useRouteMatch } from "react-router-dom";
 import styles from "./styles";
 import PropTypes from "prop-types";
 
 const BottomTabIcon = ({ label, image, link, onClick }) => {
+  const matchURL = useRouteMatch("/job_training/:trainingTitle");
   const [isActive, setActive] = useState(false);
+  const [isPathTraining, setPathTraining] = useState(false);
+
+  if (!isPathTraining && matchURL) {
+    setPathTraining(true);
+  } else if (isPathTraining && !matchURL) {
+    setPathTraining(false);
+  }
+
   if (link) {
     return (
       <NavLink
@@ -54,19 +63,21 @@ const BottomTabIcon = ({ label, image, link, onClick }) => {
         <div>
           <div
             style={
-              isActive
+              isPathTraining
                 ? { ...styles.wrapper, ...styles.activeWrapper }
                 : { ...styles.wrapper }
             }
           >
             <img
-              src={`/images/${image}${isActive ? "-active" : "-inactive"}.svg`}
+              src={`/images/${image}${
+                isPathTraining ? "-active" : "-inactive"
+              }.svg`}
               alt={label}
             />
           </div>
           <p
             style={
-              isActive
+              isPathTraining
                 ? { ...styles.label, ...styles.activeLabel }
                 : { ...styles.label }
             }

@@ -28,7 +28,7 @@ const Routes = props => {
         <PrivateRoute exact path="/logout" component={Logout} />
         <PrivateRoute
           exact
-          path="/job_training/:trainingID"
+          path="/job_training/:trainingTitle"
           component={JobTraining}
         />
         <PrivateRoute exact path="/main/job_training" component={Overview} />

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import moment from "moment";
 import styled from "styled-components";
+import TrainingContext from "../../context/TrainingContext";
 import THEME from "../../theme";
 import styles from "./styles";
 import PropTypes from "prop-types";
@@ -35,6 +37,7 @@ const StyledArrow = styled.img`
 
 const TrainingAccordion = ({ title, data }) => {
   const [isOpen, setOpen] = useState(true);
+  const { toggleTrainingSelect } = useContext(TrainingContext);
 
   return (
     <>
@@ -72,22 +75,31 @@ const TrainingAccordion = ({ title, data }) => {
         ) : (
           data.map((item, index) => {
             return (
-              <div
+              <Link
                 key={`${title}_${index}`}
-                style={styles.contentBox({
-                  lastChild: index === data.length - 1
-                })}
+                to={{
+                  pathname: `/job_training/${item.title}`
+                }}
+                onClick={toggleTrainingSelect}
               >
-                <div style={styles.wrapper}>
-                  <p style={styles.periods}>{`${moment(item.dateStart).format(
-                    "YYYY-MM-DD"
-                  )} ~ ${moment(item.dateEnd).format("YYYY-MM-DD")}`}</p>
+                <div
+                  style={styles.contentBox({
+                    lastChild: index === data.length - 1
+                  })}
+                >
+                  <div style={styles.wrapper}>
+                    <p style={styles.periods}>{`${moment(item.dateStart).format(
+                      "YYYY-MM-DD"
+                    )} ~ ${moment(item.dateEnd).format("YYYY-MM-DD")}`}</p>
 
-                  <h5 style={styles.title}>{item.title}</h5>
+                    <h5 style={styles.title}>{item.title}</h5>
+                  </div>
+
+                  {index !== data.length - 1 && (
+                    <div style={styles.separator} />
+                  )}
                 </div>
-
-                {index !== data.length - 1 && <div style={styles.separator} />}
-              </div>
+              </Link>
             );
           })
         ))}

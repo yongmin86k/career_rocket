@@ -56,7 +56,8 @@ const styles = {
     width: "100%",
     whiteSpace: "nowrap",
     overflow: "hidden",
-    textOverflow: "ellipsis"
+    textOverflow: "ellipsis",
+    color: THEME.colors.black
   },
   separator: {
     position: "absolute",
