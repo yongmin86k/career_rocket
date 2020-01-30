@@ -16,8 +16,16 @@ const StyledAccordion = styled.div`
   padding-left: 6px;
   padding-right: 8px;
   border-radius: 4px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   background-color: white;
-  ${({ active }) => !active && `margin-bottom: 8px;`};
+  ${({ active }) =>
+    !active &&
+    `
+    margin-bottom: 8px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  `};
 
   &:active {
     background-color: ${THEME.colors.lightGrey};

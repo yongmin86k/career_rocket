@@ -5,6 +5,7 @@ const styles = {
     flex: 1,
     ...THEME.typography.copyRight,
     fontWeight: THEME.typography.weight.bold,
+    color: THEME.colors.grey,
     textTransform: "uppercase"
   },
   accordionNum: title => ({
@@ -28,7 +29,11 @@ const styles = {
     padding: THEME.spacing(0.5),
     ...THEME.typography.copyRight,
     fontWeight: THEME.typography.weight.medium,
-    color: THEME.colors.grey
+    color: THEME.colors.grey,
+    backgroundColor: THEME.colors.solitudeBlue,
+    border: `solid 1px ${THEME.colors.lightGrey}`,
+    borderTop: `solid 0 transparent`,
+    borderRadius: `0 0 4px 4px`
   },
   contentBox: ({ lastChild }) => ({
     position: "relative",
@@ -37,7 +42,12 @@ const styles = {
     height: 50,
     display: "flex",
     alignItems: "center",
-    marginBottom: lastChild ? THEME.spacing(0.5) : "unset"
+    marginBottom: lastChild ? THEME.spacing(0.5) : "unset",
+    backgroundColor: THEME.colors.solitudeBlue,
+    borderRight: `solid 1px ${THEME.colors.lightGrey}`,
+    borderLeft: `solid 1px ${THEME.colors.lightGrey}`,
+    borderBottom: lastChild ? `solid 1px ${THEME.colors.lightGrey}` : "unset",
+    borderRadius: lastChild ? `0 0 4px 4px` : "unset"
   }),
   wrapper: {
     width: "100%",
@@ -61,11 +71,12 @@ const styles = {
   },
   separator: {
     position: "absolute",
-    width: "100%",
+    width: "96%",
     height: 1,
     backgroundColor: THEME.colors.lightGrey,
     bottom: 0,
-    left: 0
+    left: "50%",
+    transform: "translate(-50%)"
   }
 };
 
